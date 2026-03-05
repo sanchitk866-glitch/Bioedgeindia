@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BioEdge India — Biology Students, Powered by AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #040d0a;
+    --surface: #0a1a14;
+    --surface2: #0f2318;
+    --green: #00e87a;
+    --green2: #00c466;
+    --teal: #00d4aa;
+    --text: #e8f5ef;
+    --muted: #6b9e82;
+    --border: #1a3326;
+    --accent: #7fffcc;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(4, 13, 10, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: var(--green);
+    letter-spacing: -0.02em;
+    text-decoration: none;
+  }
+
+  .logo span { color: var(--text); }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--green); }
+
+  .nav-cta {
+    background: var(--green);
+    color: var(--bg) !important;
+    padding: 8px 20px;
+    border-radius: 100px;
+    font-weight: 500 !important;
+    transition: all 0.2s !important;
+  }
+
+  .nav-cta:hover { background: var(--accent) !important; transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,232,122,0.12) 0%, transparent 70%);
+    top: 10%;
+    right: -10%;
+    pointer-events: none;
+    animation: pulse 4s ease-in-out infinite;
+  }
+
+  .hero-glow2 {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,212,170,0.08) 0%, transparent 70%);
+    bottom: 10%;
+    left: -5%;
+    pointer-events: none;
+    animation: pulse 6s ease-in-out infinite reverse;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0,232,122,0.1);
+    border: 1px solid rgba(0,232,122,0.3);
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    color: var(--green);
+    margin-bottom: 32px;
+    width: fit-content;
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  .badge-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: blink 1.5s ease-in-out infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    max-width: 800px;
+    animation: fadeUp 0.6s 0.1s ease forwards;
+    opacity: 0;
+  }
+
+  h1 .highlight {
+    color: var(--green);
+    position: relative;
+  }
+
+  .hero-sub {
+    font-size: 1.15rem;
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.7;
+    margin-top: 24px;
+    font-weight: 300;
+    animation: fadeUp 0.6s 0.2s ease forwards;
+    opacity: 0;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.3s ease forwards;
+    opacity: 0;
+  }
+
+  .btn-primary {
+    background: var(--green);
+    color: var(--bg);
+    padding: 14px 32px;
+    border-radius: 100px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .btn-primary:hover { background: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,232,122,0.3); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    padding: 14px 32px;
+    border-radius: 100px;
+    font-weight: 400;
+    font-size: 0.95rem;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .btn-secondary:hover { border-color: var(--green); color: var(--green); }
+
+  .hero-stats {
+    display: flex;
+    gap: 48px;
+    margin-top: 64px;
+    animation: fadeUp 0.6s 0.4s ease forwards;
+    opacity: 0;
+  }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--green);
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 4px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 100px 48px;
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .section-sub {
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 480px;
+    margin-bottom: 56px;
+  }
+
+  /* AI TOOLS SECTION */
+  #tools { background: var(--surface); }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .tool-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tool-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--green), var(--teal));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .tool-card:hover { border-color: rgba(0,232,122,0.3); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+  .tool-card:hover::before { opacity: 1; }
+
+  .tool-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    background: rgba(0,232,122,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    margin-bottom: 16px;
+  }
+
+  .tool-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin-bottom: 8px;
+  }
+
+  .tool-desc {
+    color: var(--muted);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .tool-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: rgba(0,232,122,0.1);
+    color: var(--green);
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  /* JOBS SECTION */
+  #jobs { background: var(--bg); }
+
+  .jobs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 800px;
+  }
+
+  .job-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+
+  .job-card:hover { border-color: rgba(0,232,122,0.3); background: var(--surface2); }
+
+  .job-left { display: flex; align-items: center; gap: 16px; }
+
+  .job-org {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    background: rgba(0,212,170,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .job-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+  }
+
+  .job-meta {
+    color: var(--muted);
+    font-size: 0.8rem;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .job-meta span { display: flex; align-items: center; gap: 4px; }
+
+  .job-badge {
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .badge-new { background: rgba(0,232,122,0.15); color: var(--green); }
+  .badge-intern { background: rgba(0,212,170,0.15); color: var(--teal); }
+  .badge-govt { background: rgba(255,200,0,0.1); color: #ffc800; }
+
+  /* NEWS SECTION */
+  #news { background: var(--surface); }
+
+  .news-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 20px;
+  }
+
+  .news-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+
+  .news-card:hover { border-color: rgba(0,232,122,0.3); transform: translateY(-3px); }
+
+  .news-card.featured { grid-row: span 2; }
+
+  .news-img {
+    height: 180px;
+    background: linear-gradient(135deg, var(--surface2), var(--surface));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .news-card.featured .news-img { height: 260px; }
+
+  .news-img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(4,13,10,0.8));
+  }
+
+  .news-body { padding: 20px; }
+
+  .news-cat {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--green);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .news-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin-bottom: 10px;
+  }
+
+  .news-card.featured .news-title { font-size: 1.2rem; }
+
+  .news-date { color: var(--muted); font-size: 0.78rem; }
+
+  /* CAREER SECTION */
+  #career { background: var(--bg); }
+
+  .career-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+  }
+
+  .career-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    transition: all 0.3s;
+  }
+
+  .career-card:hover { border-color: rgba(0,232,122,0.3); transform: translateY(-3px); }
+
+  .career-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: rgba(0,232,122,0.2);
+    margin-bottom: 12px;
+  }
+
+  .career-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+  }
+
+  .career-desc {
+    color: var(--muted);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .career-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  .step-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    flex-shrink: 0;
+  }
+
+  /* NEWSLETTER */
+  .newsletter {
+    background: linear-gradient(135deg, var(--surface2), var(--surface));
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 64px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin: 0 48px 80px;
+  }
+
+  .newsletter::before {
+    content: '';
+    position: absolute;
+    top: -100px; left: 50%;
+    transform: translateX(-50%);
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,232,122,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .newsletter h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+
+  .newsletter p {
+    color: var(--muted);
+    margin-bottom: 32px;
+  }
+
+  .newsletter-form {
+    display: flex;
+    gap: 12px;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  .newsletter-form input {
+    flex: 1;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 12px 20px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .newsletter-form input:focus { border-color: var(--green); }
+  .newsletter-form input::placeholder { color: var(--muted); }
+
+  .newsletter-form button {
+    background: var(--green);
+    color: var(--bg);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+
+  .newsletter-form button:hover { background: var(--accent); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    color: var(--green);
+    font-size: 1.1rem;
+  }
+
+  .footer-logo span { color: var(--muted); }
+
+  .footer-text {
+    color: var(--muted);
+    font-size: 0.82rem;
+  }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0 48px;
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+  /* ACTIVE NAV */
+  .nav-links a.active { color: var(--green); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">BioEdge<span>India</span></a>
+  <ul class="nav-links">
+    <li><a href="#tools">AI Tools</a></li>
+    <li><a href="#jobs">Jobs</a></li>
+    <li><a href="#news">News</a></li>
+    <li><a href="#career">Career</a></li>
+    <li><a href="#newsletter" class="nav-cta">Join Free</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+
+  <div class="hero-badge">
+    <div class="badge-dot"></div>
+    India's First AI-Powered Platform for Biology Students
+  </div>
+
+  <h1>
+    Where <span class="highlight">Biology</span><br>
+    Meets the Future
+  </h1>
+
+  <p class="hero-sub">
+    AI tools, job opportunities, biotech news, and career roadmaps — all in one place. Built for B.Sc., M.Sc., and Biotech students across India.
+  </p>
+
+  <div class="hero-actions">
+    <a href="#tools" class="btn-primary">Explore AI Tools 🧬</a>
+    <a href="#jobs" class="btn-secondary">View Opportunities →</a>
+  </div>
+
+  <div class="hero-stats">
+    <div>
+      <div class="stat-num">20+</div>
+      <div class="stat-label">AI Tools Curated</div>
+    </div>
+    <div>
+      <div class="stat-num">50+</div>
+      <div class="stat-label">Live Opportunities</div>
+    </div>
+    <div>
+      <div class="stat-num">Free</div>
+      <div class="stat-label">Always & Forever</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- AI TOOLS -->
+<section id="tools">
+  <div class="section-label">🤖 AI Tools</div>
+  <div class="section-title">AI Tools for<br>Biology Students</div>
+  <p class="section-sub">Handpicked tools that actually help you study, research, and build your career in life sciences.</p>
+
+  <div class="tools-grid">
+    <div class="tool-card">
+      <div class="tool-icon">🧬</div>
+      <div class="tool-name">AlphaFold 3</div>
+      <div class="tool-desc">Predict protein structures with stunning accuracy. Free for students and researchers. A must-know for molecular biology.</div>
+      <span class="tool-tag">Molecular Biology</span>
+    </div>
+    <div class="tool-card">
+      <div class="tool-icon">📄</div>
+      <div class="tool-name">Consensus AI</div>
+      <div class="tool-desc">Ask questions, get answers directly from research papers. Perfect for literature reviews and exam prep.</div>
+      <span class="tool-tag">Research</span>
+    </div>
+    <div class="tool-card">
+      <div class="tool-icon">🔬</div>
+      <div class="tool-name">BioRender</div>
+      <div class="tool-desc">Create stunning scientific figures and diagrams for your projects and presentations in minutes.</div>
+      <span class="tool-tag">Visualization</span>
+    </div>
+    <div class="tool-card">
+      <div class="tool-icon">🧪</div>
+      <div class="tool-name">AutoDock Vina + AI</div>
+      <div class="tool-desc">Simplified molecular docking guide using AI assistance. Ideal for IIT JAM and CSIR preparation.</div>
+      <span class="tool-tag">Bioinformatics</span>
+    </div>
+    <div class="tool-card">
+      <div class="tool-icon">📊</div>
+      <div class="tool-name">Claude for Study</div>
+      <div class="tool-desc">Use AI to explain complex biology concepts, summarize textbooks, and practice MCQs for competitive exams.</div>
+      <span class="tool-tag">Study Aid</span>
+    </div>
+    <div class="tool-card">
+      <div class="tool-icon">🧫</div>
+      <div class="tool-name">Benchling</div>
+      <div class="tool-desc">Free lab notebook and DNA sequence analysis tool used by top biotech companies and research labs worldwide.</div>
+      <span class="tool-tag">Lab Tools</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- JOBS -->
+<section id="jobs">
+  <div class="section-label">💼 Opportunities</div>
+  <div class="section-title">Jobs &<br>Internships</div>
+  <p class="section-sub">Freshly updated biology, biotech and life sciences opportunities from top organisations across India.</p>
+
+  <div class="jobs-list">
+    <div class="job-card">
+      <div class="job-left">
+        <div class="job-org">🏛️</div>
+        <div>
+          <div class="job-title">Research Internship — Molecular Biology</div>
+          <div class="job-meta">
+            <span>📍 ICMR, New Delhi</span>
+            <span>🕐 3 Months</span>
+            <span>₹ Stipend Provided</span>
+          </div>
+        </div>
+      </div>
+      <span class="job-badge badge-new">New</span>
+    </div>
+
+    <div class="job-card">
+      <div class="job-left">
+        <div class="job-org">🔬</div>
+        <div>
+          <div class="job-title">Junior Research Fellow (JRF)</div>
+          <div class="job-meta">
+            <span>📍 DBT, Bangalore</span>
+            <span>🕐 2 Years</span>
+            <span>₹ 31,000/month</span>
+          </div>
+        </div>
+      </div>
+      <span class="job-badge badge-govt">Govt</span>
+    </div>
+
+    <div class="job-card">
+      <div class="job-left">
+        <div class="job-org">🧬</div>
+        <div>
+          <div class="job-title">Biotech Intern — Drug Discovery</div>
+          <div class="job-meta">
+            <span>📍 Sun Pharma, Mumbai</span>
+            <span>🕐 6 Months</span>
+            <span>₹ 15,000/month</span>
+          </div>
+        </div>
+      </div>
+      <span class="job-badge badge-intern">Internship</span>
+    </div>
+
+    <div class="job-card">
+      <div class="job-left">
+        <div class="job-org">🏥</div>
+        <div>
+          <div class="job-title">Clinical Research Associate</div>
+          <div class="job-meta">
+            <span>📍 Apollo Hospitals, Delhi</span>
+            <span>🕐 Full Time</span>
+            <span>₹ 4-6 LPA</span>
+          </div>
+        </div>
+      </div>
+      <span class="job-badge badge-new">New</span>
+    </div>
+
+    <div class="job-card">
+      <div class="job-left">
+        <div class="job-org">🌿</div>
+        <div>
+          <div class="job-title">Bioinformatics Intern</div>
+          <div class="job-meta">
+            <span>📍 CSIR-IGIB, Delhi</span>
+            <span>🕐 3 Months</span>
+            <span>₹ Stipend</span>
+          </div>
+        </div>
+      </div>
+      <span class="job-badge badge-govt">Govt</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- NEWS -->
+<section id="news">
+  <div class="section-label">📰 Biotech News</div>
+  <div class="section-title">Latest in<br>Bio & AI</div>
+  <p class="section-sub">The most important biotech and AI-in-biology stories — explained simply for students.</p>
+
+  <div class="news-grid">
+    <div class="news-card featured">
+      <div class="news-img">🧬</div>
+      <div class="news-body">
+        <div class="news-cat">AI + Biology</div>
+        <div class="news-title">How AI is Revolutionizing Drug Discovery in India — What Every Bio Student Must Know</div>
+        <div class="news-date">March 2025 · 5 min read</div>
+      </div>
+    </div>
+
+    <div class="news-card">
+      <div class="news-img" style="height:120px">🔬</div>
+      <div class="news-body">
+        <div class="news-cat">Research</div>
+        <div class="news-title">CRISPR Gene Editing Gets Cheaper — Here's What It Means for Students</div>
+        <div class="news-date">Feb 2025 · 3 min read</div>
+      </div>
+    </div>
+
+    <div class="news-card">
+      <div class="news-img" style="height:120px">💊</div>
+      <div class="news-body">
+        <div class="news-cat">Careers</div>
+        <div class="news-title">Top 5 Biotech Companies Hiring Freshers in India This Year</div>
+        <div class="news-date">Feb 2025 · 4 min read</div>
+      </div>
+    </div>
+
+    <div class="news-card">
+      <div class="news-img" style="height:120px">🧫</div>
+      <div class="news-body">
+        <div class="news-cat">Exams</div>
+        <div class="news-title">IIT JAM Biotechnology 2026 — Complete Preparation Strategy</div>
+        <div class="news-date">Jan 2025 · 6 min read</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CAREER -->
+<section id="career">
+  <div class="section-label">🧭 Career Guidance</div>
+  <div class="section-title">Your Roadmap<br>After B.Sc.</div>
+  <p class="section-sub">Clear, honest guidance on the best paths available to life sciences students in India today.</p>
+
+  <div class="career-grid">
+    <div class="career-card">
+      <div class="career-num">01</div>
+      <div class="career-title">IIT JAM Biotechnology</div>
+      <div class="career-desc">Get into IIT/IISc for M.Sc. — the most respected academic route for life sciences students.</div>
+      <div class="career-steps">
+        <div class="step"><div class="step-dot"></div>Start preparation in 2nd semester</div>
+        <div class="step"><div class="step-dot"></div>Focus on Molecular Bio + Chemistry</div>
+        <div class="step"><div class="step-dot"></div>Solve 10 years of past papers</div>
+        <div class="step"><div class="step-dot"></div>Apply in final year of B.Sc.</div>
+      </div>
+    </div>
+
+    <div class="career-card">
+      <div class="career-num">02</div>
+      <div class="career-title">CSIR-NET Life Sciences</div>
+      <div class="career-desc">Qualify for JRF fellowship and lectureship. Opens doors to research labs and teaching careers.</div>
+      <div class="career-steps">
+        <div class="step"><div class="step-dot"></div>Eligible after B.Sc. + M.Sc.</div>
+        <div class="step"><div class="step-dot"></div>JRF gives ₹31,000/month stipend</div>
+        <div class="step"><div class="step-dot"></div>Focus on cell biology and genetics</div>
+        <div class="step"><div class="step-dot"></div>Exam held twice a year</div>
+      </div>
+    </div>
+
+    <div class="career-card">
+      <div class="career-num">03</div>
+      <div class="career-title">Biotech Industry Jobs</div>
+      <div class="career-desc">Join pharma, diagnostics, or biotech startups directly. Growing sector with strong demand for freshers.</div>
+      <div class="career-steps">
+        <div class="step"><div class="step-dot"></div>Do internships in 2nd/3rd year</div>
+        <div class="step"><div class="step-dot"></div>Learn bioinformatics tools</div>
+        <div class="step"><div class="step-dot"></div>Build LinkedIn profile early</div>
+        <div class="step"><div class="step-dot"></div>Target Sun Pharma, Biocon, Dr. Reddy's</div>
+      </div>
+    </div>
+
+    <div class="career-card">
+      <div class="career-num">04</div>
+      <div class="career-title">MBA in Healthcare / AI</div>
+      <div class="career-desc">Combine biology with business. Growing demand for people who understand both science and management.</div>
+      <div class="career-steps">
+        <div class="step"><div class="step-dot"></div>Prepare for CAT/GMAT after B.Sc.</div>
+        <div class="step"><div class="step-dot"></div>Target XLRI, TISS, IIHMR</div>
+        <div class="step"><div class="step-dot"></div>Healthcare management is booming</div>
+        <div class="step"><div class="step-dot"></div>AI + Bio = rare combo employers want</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<div class="newsletter" id="newsletter">
+  <div class="section-label" style="text-align:center">📬 Newsletter</div>
+  <h2>Stay Ahead.<br>Stay BioEdge.</h2>
+  <p>Weekly digest of AI tools, job updates, and biotech news — straight to your inbox. Free forever.</p>
+  <div class="newsletter-form">
+    <input type="email" placeholder="your@email.com">
+    <button>Subscribe Free</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">BioEdge<span>India</span></div>
+  <div class="footer-text">Built for biology students across India 🇮🇳</div>
+  <div class="footer-text">© 2025 BioEdge India</div>
+</footer>
+
+<script>
+  // Smooth active nav on scroll
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      if (window.scrollY >= section.offsetTop - 100) {
+        current = section.getAttribute('id');
+      }
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) {
+        link.classList.add('active');
+      }
+    });
+  });
+
+  // Newsletter button
+  document.querySelector('.newsletter-form button').addEventListener('click', () => {
+    const input = document.querySelector('.newsletter-form input');
+    if (input.value.includes('@')) {
+      input.value = '✅ You\'re on the list!';
+      input.style.color = '#00e87a';
+    } else {
+      input.placeholder = 'Please enter a valid email';
+      input.style.borderColor = '#ff4444';
+    }
+  });
+</script>
+</body>
+</html>
