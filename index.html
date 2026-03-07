@@ -1247,18 +1247,11 @@
 </style>
 
 <script>
+  window._bioedgeKey = 'AIzaSyC2aM-Mpl1ND9BYzoOfO4LbY4euRCM0R6w';
+
   function toggleChat() {
     const win = document.getElementById('chat-window');
     win.classList.toggle('open');
-    if (win.classList.contains('open') && !window._bioedgeKey) {
-      const key = prompt('Enter your Anthropic API key to enable BioEdge AI:\n(Get one free at console.anthropic.com)');
-      if (key && key.trim().startsWith('sk-')) {
-        window._bioedgeKey = key.trim();
-      } else if (key) {
-        alert('Invalid key format. Please enter a valid Anthropic API key starting with sk-');
-        win.classList.remove('open');
-      }
-    }
   }
 
   function appendMsg(text, type) {
@@ -1285,30 +1278,26 @@
     const typingDiv = appendMsg('<div class="typing-dots"><span></span><span></span><span></span></div>', 'typing-msg');
 
     try {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
+      const apiKey = window._bioedgeKey;
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': window._bioedgeKey || '',
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'claude-haiku-4-5-20251001',
-          max_tokens: 1000,
-          system: `You are BioEdge AI, an expert biology assistant for Indian students. You help with:
+          system_instruction: {
+            parts: [{ text: `You are BioEdge AI, an expert biology assistant for Indian students. You help with:
 - Biology concepts (cell biology, genetics, molecular biology, ecology, physiology, botany, zoology)
 - IIT JAM, CSIR NET, GATE Biotechnology exam preparation
 - Career guidance for life sciences students in India
 - Internship and job advice for bio/biotech students
 - Bioinformatics and computational biology
-Always give clear, detailed, student-friendly answers. Use examples. Format answers with line breaks for readability. You are knowledgeable, encouraging, and focused on helping Indian biology students succeed.`,
-          messages: [{ role: 'user', content: userText }]
+Always give clear, detailed, student-friendly answers. Use examples. Format answers with line breaks for readability.` }]
+          },
+          contents: [{ parts: [{ text: userText }] }]
         })
       });
       const data = await response.json();
       typingDiv.remove();
-      const aiText = data.content?.[0]?.text || 'Sorry, I could not get a response. Please try again!';
+      const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Sorry, I could not get a response. Please try again!';
       appendMsg(aiText.replace(/\n/g, '<br>'), 'ai-msg');
     } catch (err) {
       typingDiv.remove();
