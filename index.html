@@ -1376,6 +1376,233 @@ Always give clear, detailed, student-friendly answers. Use examples. Format answ
       input.style.borderColor = '#ff4444';
     }
   });
+</script><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BioEdge India — Anti-Gravity Demo</title>
+<style>
+  /* ===== PASTE EVERYTHING INSIDE THIS <style> TAG INTO YOUR site's <style> or CSS file ===== */
+
+  /* Anti-gravity canvas layer — sits behind all content */
+  #bioedge-antigravity {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  /* Floating orb */
+  .bio-orb {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0;
+    animation: floatUp var(--dur) ease-in var(--delay) infinite;
+    will-change: transform, opacity;
+  }
+
+  /* DNA dot (small filled circle) */
+  .bio-orb.dot {
+    width: var(--size);
+    height: var(--size);
+    background: var(--color);
+    box-shadow: 0 0 calc(var(--size) * 1.5) var(--color);
+  }
+
+  /* Hollow ring */
+  .bio-orb.ring {
+    width: var(--size);
+    height: var(--size);
+    background: transparent;
+    border: 1.5px solid var(--color);
+    box-shadow: 0 0 8px var(--color);
+  }
+
+  @keyframes floatUp {
+    0%   { transform: translateY(0)   translateX(0)   scale(0.6); opacity: 0; }
+    10%  { opacity: var(--peak-opacity); }
+    80%  { opacity: var(--peak-opacity); }
+    100% { transform: translateY(var(--rise)) translateX(var(--drift)) scale(1.1); opacity: 0; }
+  }
+
+  /* Ensure your main content sits above the canvas */
+  body > *:not(#bioedge-antigravity) {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ===== DEMO ONLY — remove these below in your real site ===== */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #050d1a;
+    font-family: 'Segoe UI', sans-serif;
+    color: #e0f4ff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    padding: 3rem 1.5rem;
+  }
+
+  .demo-hero {
+    text-align: center;
+    max-width: 640px;
+  }
+
+  .demo-hero h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    background: linear-gradient(120deg, #00d4ff, #00ff9d, #7b4dff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.75rem;
+  }
+
+  .demo-hero p {
+    font-size: 1.05rem;
+    color: #8ab8d0;
+    line-height: 1.7;
+  }
+
+  .demo-cards {
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .demo-card {
+    background: rgba(0, 212, 255, 0.06);
+    border: 1px solid rgba(0, 212, 255, 0.18);
+    border-radius: 14px;
+    padding: 1.4rem 1.8rem;
+    width: 180px;
+    text-align: center;
+    backdrop-filter: blur(6px);
+    transition: transform 0.25s, border-color 0.25s;
+  }
+
+  .demo-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(0, 212, 255, 0.5);
+  }
+
+  .demo-card .icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
+  .demo-card h3 { font-size: 0.9rem; color: #c5eeff; font-weight: 600; }
+
+  .demo-note {
+    font-size: 0.78rem;
+    color: #4a7a94;
+    border: 1px dashed #1a3a55;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== ANTI-GRAVITY LAYER — paste this div near the top of your <body> ===== -->
+<div id="bioedge-antigravity"></div>
+<!-- ===== END ANTI-GRAVITY LAYER ===== -->
+
+<!-- DEMO CONTENT (your actual site content goes here) -->
+<div class="demo-hero">
+  <h1>BioEdge India</h1>
+  <p>AI-powered platform for biology & life sciences students. Explore, learn, and get ahead.</p>
+</div>
+
+<div class="demo-cards">
+  <div class="demo-card"><div class="icon">🧬</div><h3>AI Chatbot</h3></div>
+  <div class="demo-card"><div class="icon">💼</div><h3>Jobs & Internships</h3></div>
+  <div class="demo-card"><div class="icon">🗺️</div><h3>Career Roadmaps</h3></div>
+  <div class="demo-card"><div class="icon">📰</div><h3>BioTech News</h3></div>
+</div>
+
+<div class="demo-note">⬆ Anti-gravity effect is live in the background — scroll or wait to see orbs float up</div>
+
+
+<!-- ===== ANTI-GRAVITY SCRIPT — paste before </body> in your real site ===== -->
+<script>
+(function () {
+  const container = document.getElementById('bioedge-antigravity');
+  if (!container) return;
+
+  // Colour palette matching BioEdge India bio/tech theme
+  const COLORS = [
+    'rgba(0, 212, 255, VAR)',   // cyan
+    'rgba(0, 255, 157, VAR)',   // bio green
+    'rgba(123, 77, 255, VAR)',  // violet
+    'rgba(255, 220, 80, VAR)',  // amber (rare)
+    'rgba(0, 180, 255, VAR)',   // sky blue
+  ];
+
+  const ORB_COUNT = 38;
+
+  function randomBetween(a, b) {
+    return a + Math.random() * (b - a);
+  }
+
+  function makeOrb() {
+    const el = document.createElement('div');
+    const isRing = Math.random() < 0.35;
+    el.className = 'bio-orb ' + (isRing ? 'ring' : 'dot');
+
+    const size = randomBetween(isRing ? 10 : 3, isRing ? 28 : 10);
+    const peakOpacity = randomBetween(0.25, isRing ? 0.55 : 0.75);
+    const colorRaw = COLORS[Math.floor(Math.random() * COLORS.length)];
+    const color = colorRaw.replace('VAR', peakOpacity.toFixed(2));
+    const dur = randomBetween(6, 18) + 's';
+    const delay = randomBetween(0, 14) + 's';
+    const startX = randomBetween(0, 100); // vw %
+    const startY = randomBetween(60, 105); // start below fold
+    const rise = '-' + randomBetween(60, 120) + 'vh';
+    const drift = (Math.random() < 0.5 ? '' : '-') + randomBetween(5, 40) + 'px';
+
+    el.style.cssText = `
+      --size: ${size}px;
+      --color: ${color};
+      --dur: ${dur};
+      --delay: ${delay};
+      --rise: ${rise};
+      --drift: ${drift};
+      --peak-opacity: ${peakOpacity};
+      left: ${startX}%;
+      top: ${startY}%;
+    `;
+
+    return el;
+  }
+
+  // Spawn all orbs
+  for (let i = 0; i < ORB_COUNT; i++) {
+    container.appendChild(makeOrb());
+  }
+
+  // On resize, regenerate to re-randomise positions
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      container.innerHTML = '';
+      for (let i = 0; i < ORB_COUNT; i++) {
+        container.appendChild(makeOrb());
+      }
+    }, 300);
+  });
+})();
 </script>
+<!-- ===== END ANTI-GRAVITY SCRIPT ===== -->
+
+</body>
+</html>
+
 </body>
 </html>
