@@ -33,8 +33,10 @@ export default async function handler(req, res) {
     const data = await response.json();
     
     if (data.error) {
+      const keySnippet = GEMINI_KEY ? `${GEMINI_KEY.substring(0, 6)}...${GEMINI_KEY.substring(GEMINI_KEY.length - 4)}` : 'none';
+      const keyLength = GEMINI_KEY ? GEMINI_KEY.length : 0;
       return res.status(200).json({ 
-        reply: `Google Gemini API Error: ${data.error.message} (Code: ${data.error.code}). Please verify your GEMINI_API_KEY settings in the Vercel Dashboard and make sure you Redeployed the project after adding it.` 
+        reply: `Google Gemini API Error: ${data.error.message} (Code: ${data.error.code}).\n\n[System Diagnostics] Vercel is currently reading a key of length ${keyLength} that looks like: '${keySnippet}'. Please check if this matches your Google AI Studio API key exactly. If it is different or empty, it means Vercel is still deploying/caching the old variable value, or you have not completed Step 3 (Redeployment) after updating it.` 
       });
     }
 
