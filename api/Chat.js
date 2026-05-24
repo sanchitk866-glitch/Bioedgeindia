@@ -11,7 +11,7 @@ export default async function handler(req, res) {
 
   try {
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -25,9 +25,16 @@ export default async function handler(req, res) {
     );
 
     const data = await response.json();
-    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Sorry, try again!';
+    
+    if (data.error) {
+      return res.status(200).json({ 
+        reply: `Google Gemini API Error: ${data.error.message} (Code: ${data.error.code}). Please verify your GEMINI_API_KEY settings in the Vercel Dashboard and make sure you Redeployed the project after adding it.` 
+      });
+    }
+
+    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Sorry, try again! The response from Gemini was empty.';
     res.status(200).json({ reply });
   } catch (err) {
-    res.status(500).json({ error: 'API error', reply: 'Sorry, kuch error aa gaya!' });
+    res.status(500).json({ error: 'API error', reply: 'Sorry, connection error to Gemini. Please try again later.' });
   }
 }
