@@ -234,7 +234,7 @@
 <!-- HERO -->
 <header class="sandbox-hero">
   <h1>Interactive <span class="highlight">Bioinformatics</span> Sandbox</h1>
-  <p class="sandbox-sub">Interact with sequence manipulation models, Dynamic Programming grids, and WebGL-based molecular models. Designed to make abstract concepts visual and buildable.</p>
+  <p class="sandbox-sub">Interact with sequence manipulation engines, Dynamic Programming grids, and WebGL-based molecular models. Designed to make abstract concepts visual and buildable.</p>
 </header>
 
 <!-- MAIN CONTAINER -->
@@ -244,7 +244,7 @@
   <div class="tabs-container">
     <button class="tab-btn active" onclick="switchTab('dna-toolkit', this)">DNA Toolkit 🧬</button>
     <button class="tab-btn" onclick="switchTab('alignment-lab', this)">Alignment Lab 📊</button>
-    <button class="tab-btn" onclick="switchTab('molecular-viewer', this)">Molecular Viewer 💊</button>
+    <button class="tab-btn" onclick="switchTab('molecular-viewer', this)">Molecular Viewer 🔬</button>
   </div>
 
   <!-- TAB 1: DNA TOOLKIT -->
@@ -276,20 +276,20 @@
         
         <div class="stat-grid-summary">
           <div class="stat-card-small">
-            <div class="num" id="statLength">0</div>
+            <div class="num" id="statLength">—</div>
             <div class="lbl">Sequence Length</div>
           </div>
           <div class="stat-card-small">
-            <div class="num" id="statGC">0%</div>
+            <div class="num" id="statGC">—</div>
             <div class="lbl">GC Content</div>
           </div>
         </div>
 
         <div class="stat-grid-summary" style="margin-top: 10px;">
           <div class="stat-card-small" style="grid-column: span 2;">
-            <div class="num" id="statTm">0 °C</div>
+            <div class="num" id="statTm">—</div>
             <div class="lbl">Melting Temp (T<sub>m</sub>)</div>
-            <span class="sub" id="tmFormulaType">Wallace Short Formula</span>
+            <span class="sub" id="tmFormulaType">—</span>
           </div>
         </div>
 
@@ -390,15 +390,15 @@
         <h2>Alignment Result</h2>
         <p>Optimal alignment representation matching gap substitutions.</p>
         
-        <div class="alignment-string-output" id="alignmentStringOutput">Renders on calculation...</div>
+        <div class="alignment-string-output" id="alignmentStringOutput">Run alignment to see results here.</div>
         
         <div class="stat-grid-summary" style="margin-top: 16px;">
           <div class="stat-card-small">
-            <div class="num" id="alignScore">0</div>
+            <div class="num" id="alignScore">—</div>
             <div class="lbl">Alignment Score</div>
           </div>
           <div class="stat-card-small">
-            <div class="num" id="alignIdentity">0%</div>
+            <div class="num" id="alignIdentity">—</div>
             <div class="lbl">Sequence Identity</div>
           </div>
         </div>
@@ -600,8 +600,8 @@ function runDNAToolkit() {
     rawVal = lines.join('\n');
   }
 
-  // Sanitization: Convert to uppercase and strip non-sequence whitespaces/numbers
-  let sanitized = rawVal.toUpperCase().replace(/[\s\d]/g, '');
+  // Sanitization: Convert to uppercase and strip whitespaces/newlines. Keep numbers so they flag as invalid.
+  let sanitized = rawVal.toUpperCase().replace(/\s/g, '');
 
   if (!sanitized) {
     resetDNAOutputs();
@@ -747,10 +747,10 @@ function updateBarChart(barId, lblId, count, total) {
 }
 
 function resetDNAOutputs() {
-  document.getElementById('statLength').textContent = '0';
-  document.getElementById('statGC').textContent = '0%';
-  document.getElementById('statTm').textContent = '0 °C';
-  document.getElementById('tmFormulaType').textContent = 'Wallace Short Formula';
+  document.getElementById('statLength').textContent = '—';
+  document.getElementById('statGC').textContent = '—';
+  document.getElementById('statTm').textContent = '—';
+  document.getElementById('tmFormulaType').textContent = '—';
   
   updateBarChart('barA', 'lblCountA', 0, 0);
   updateBarChart('barT', 'lblCountT', 0, 0);
@@ -760,6 +760,12 @@ function resetDNAOutputs() {
   document.getElementById('mrnaOutput').textContent = 'Waiting for input...';
   document.getElementById('proteinRawString').textContent = '';
   document.getElementById('proteinOutput').textContent = 'Waiting for input...';
+  
+  const validationEl = document.getElementById('validationResult');
+  if (validationEl) {
+    validationEl.style.display = 'none';
+    validationEl.innerHTML = '';
+  }
 }
 
 
@@ -791,6 +797,9 @@ function runNeedlemanWunsch() {
 
   if (!seqA || !seqB) {
     document.getElementById('alignmentStringOutput').textContent = 'Please enter both Sequence A and Sequence B.';
+    document.getElementById('alignScore').textContent = '—';
+    document.getElementById('alignIdentity').textContent = '—';
+    document.getElementById('dpTableWrapper').innerHTML = '';
     return;
   }
 
@@ -967,6 +976,10 @@ function fetchAndRenderPdb(pdbId) {
   const spinner = document.getElementById('viewerSpinner');
   const statusTxt = document.getElementById('viewerStatusText');
   
+  // Ensure the spinning circle is visible again if it was hidden by a previous error
+  const spinCircle = spinner.querySelector('.spinner');
+  if (spinCircle) spinCircle.style.display = 'block';
+  
   spinner.style.display = 'flex';
   statusTxt.textContent = `Fetching Structure ${pdbId}...`;
 
@@ -1001,6 +1014,8 @@ function fetchAndRenderPdb(pdbId) {
       glViewer.render();
     })
     .catch(error => {
+      const spinCircle = spinner.querySelector('.spinner');
+      if (spinCircle) spinCircle.style.display = 'none';
       statusTxt.innerHTML = `<span style="color:var(--red);">${error.message}</span>`;
     });
 }
