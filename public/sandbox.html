@@ -319,6 +319,7 @@
   <div class="tabs-container">
     <button class="tab-btn active" onclick="switchTab('dna-toolkit', this)">DNA Toolkit 🧬</button>
     <button class="tab-btn" onclick="switchTab('alignment-lab', this)">Alignment Lab 📊</button>
+    <button class="tab-btn" onclick="switchTab('primer-designer', this)">Primer Designer ⚗️</button>
     <button class="tab-btn" onclick="switchTab('molecular-viewer', this)">Molecular Viewer 🔬</button>
   </div>
 
@@ -491,6 +492,123 @@
 
       <div class="dp-matrix-container" id="dpTableWrapper">
         <!-- Renders dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 4: PRIMER DESIGNER -->
+  <section id="primer-designer" class="sandbox-content">
+    <div class="sandbox-grid">
+      <!-- Input Panel -->
+      <div class="sandbox-card">
+        <h2>Primer Designer & Reverse Translator</h2>
+        <p>Convert functional amino acid targets (peptides) into optimized cDNA sequences and calculate high-efficiency Forward and Reverse PCR primers.</p>
+        
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; font-size: 0.76rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 8px;">
+            Input Peptide Chain (Single-Letter Codes)
+          </label>
+          <input type="text" id="peptideInput" value="MDYKDDDDK" placeholder="e.g. MDYKDDDDK" style="width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; color: var(--green); font-family: monospace; font-size: 1rem; outline: none; transition: border-color 0.2s; text-transform: uppercase; letter-spacing: 0.15em;" oninput="this.value = this.value.toUpperCase(); designExpressionPrimers();">
+          <div class="preset-row" style="margin-top: 8px;">
+            <span class="preset-label">Try Presets:</span>
+            <button class="btn-preset" onclick="loadPeptidePreset('MDYKDDDDK')">FLAG-tag (MDYKDDDDK)</button>
+            <button class="btn-preset" onclick="loadPeptidePreset('MHHHHHH')">His-tag (MHHHHHH)</button>
+            <button class="btn-preset" onclick="loadPeptidePreset('MYGF')">Short peptide (MYGF)</button>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 18px; margin-bottom: 20px;">
+          <div class="align-input-wrap">
+            <label for="hostBiasSelect" style="font-size: 0.76rem; color: var(--muted); font-weight: 500;">Host Expression Bias</label>
+            <select class="viewer-select" id="hostBiasSelect" style="background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; color: var(--text); outline: none;">
+              <option value="ecoli">Escherichia coli (Bacterial)</option>
+              <option value="human">Homo sapiens (Human Optimized)</option>
+            </select>
+          </div>
+          <div class="align-input-wrap">
+            <label for="primerLengthSlider" id="primerLengthLabel" style="font-size: 0.76rem; color: var(--muted); font-weight: 500;">Target Length: 20 bp</label>
+            <input type="range" id="primerLengthSlider" min="18" max="28" value="20" style="width: 100%; margin-top: 12px; accent-color: var(--green); cursor: pointer;" oninput="updatePrimerLengthLabel(this.value)">
+          </div>
+        </div>
+
+        <button onclick="designExpressionPrimers()" class="btn-run" style="background: var(--green); color: var(--bg); font-weight: bold; padding: 12.5px 18px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          ⚙️ Compute & Optimize Primer Alignments
+        </button>
+      </div>
+
+      <!-- Output Panel -->
+      <div class="sandbox-card" id="primerOutputCard">
+        <h2>Primer Analysis Results</h2>
+        <div id="primerColdState" style="color: var(--muted); font-size: 0.88rem; line-height: 1.6; text-align: center; padding: 40px 20px;">
+          <div style="font-size: 2.2rem; margin-bottom: 12px;">⚗️</div>
+          Run the optimizer to design PCR primers and see details here.
+        </div>
+
+        <div id="primerResultsPanel" style="display: none; animation: fadeIn 0.4s ease forwards;">
+          <div class="output-container" style="margin-top: 0;">
+            <span class="output-label">Optimized cDNA Template</span>
+            <button class="btn-copy" onclick="copyText('cdnaOutputText', this)">Copy cDNA</button>
+            <div class="output-box" id="cdnaOutputText" style="padding-top: 36px; max-height: 120px;">-</div>
+          </div>
+
+          <!-- Primers Grid -->
+          <div style="display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 16px;">
+            
+            <!-- Forward Primer -->
+            <div style="background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 16px; position: relative;">
+              <span style="font-size: 0.65rem; font-weight: bold; background: rgba(84, 160, 255, 0.1); border: 1px solid rgba(84, 160, 255, 0.3); color: #9bc5ff; padding: 2px 8px; border-radius: 4px; text-transform: uppercase;">
+                Forward Primer (5' → 3')
+              </span>
+              <button class="btn-copy" style="top: 12px; right: 12px;" onclick="copyText('fwdPrimerText', this)">Copy</button>
+              <div id="fwdPrimerText" style="font-family: monospace; font-size: 0.9rem; tracking-wider: 0.05em; color: var(--text); background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 6px; padding: 10px; margin-top: 12px; word-break: break-all;">-</div>
+              
+              <div class="stat-grid-summary" style="margin-top: 12px; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+                <div class="stat-card-small" style="padding: 6px;">
+                  <div class="num" id="fwdLength" style="font-size: 0.95rem;">-</div>
+                  <div class="lbl" style="font-size: 0.58rem;">Length</div>
+                </div>
+                <div class="stat-card-small" style="padding: 6px;">
+                  <div class="num" id="fwdGc" style="font-size: 0.95rem; color: #54a0ff;">-</div>
+                  <div class="lbl" style="font-size: 0.58rem;">GC %</div>
+                </div>
+                <div class="stat-card-small" style="padding: 6px;">
+                  <div class="num" id="fwdTm" style="font-size: 0.95rem; color: var(--green);">-</div>
+                  <div class="lbl" style="font-size: 0.58rem;">T_m</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Reverse Primer -->
+            <div style="background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 16px; position: relative;">
+              <span style="font-size: 0.65rem; font-weight: bold; background: rgba(180, 120, 255, 0.1); border: 1px solid rgba(180, 120, 255, 0.3); color: #c084fc; padding: 2px 8px; border-radius: 4px; text-transform: uppercase;">
+                Reverse Primer (5' → 3')
+              </span>
+              <button class="btn-copy" style="top: 12px; right: 12px;" onclick="copyText('revPrimerText', this)">Copy</button>
+              <div id="revPrimerText" style="font-family: monospace; font-size: 0.9rem; tracking-wider: 0.05em; color: var(--text); background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 6px; padding: 10px; margin-top: 12px; word-break: break-all;">-</div>
+
+              <div class="stat-grid-summary" style="margin-top: 12px; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+                <div class="stat-card-small" style="padding: 6px;">
+                  <div class="num" id="revLength" style="font-size: 0.95rem;">-</div>
+                  <div class="lbl" style="font-size: 0.58rem;">Length</div>
+                </div>
+                <div class="stat-card-small" style="padding: 6px;">
+                  <div class="num" id="revGc" style="font-size: 0.95rem; color: #c084fc;">-</div>
+                  <div class="lbl" style="font-size: 0.58rem;">GC %</div>
+                </div>
+                <div class="stat-card-small" style="padding: 6px;">
+                  <div class="num" id="revTm" style="font-size: 0.95rem; color: var(--green);">-</div>
+                  <div class="lbl" style="font-size: 0.58rem;">T_m</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Validation Metric Block -->
+          <div id="primerWarningPanel" style="margin-top: 16px; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 0.78rem; display: flex; align-items: center; justify-content: space-between;">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1365,6 +1483,125 @@ function update3DPocketViewerStyles(residues) {
   glViewer.render();
 }
 
+// ===== PRIMER DESIGNER LOGIC =====
+const PEPTIDE_CODON_TABLES = {
+  ecoli: { A:'GCG', C:'TGC', D:'GAT', E:'GAA', F:'TTC', G:'GGT', H:'CAT', I:'ATC', K:'AAA', L:'CTG', M:'ATG', N:'AAC', P:'CCG', Q:'CAG', R:'CGT', S:'AGC', T:'ACC', V:'GTG', W:'TGG', Y:'TAT' },
+  human: { A:'GCC', C:'TGC', D:'GAC', E:'GAG', F:'TTC', G:'GGC', H:'CAC', I:'ATC', K:'AAG', L:'CTG', M:'ATG', N:'AAC', P:'CCC', Q:'CAG', R:'CGC', S:'AGC', T:'ACC', V:'GTG', W:'TGG', Y:'TAC' }
+};
+
+function loadPeptidePreset(peptide) {
+  document.getElementById('peptideInput').value = peptide;
+  designExpressionPrimers();
+}
+
+function updatePrimerLengthLabel(val) {
+  document.getElementById('primerLengthLabel').textContent = `Target Length: ${val} bp`;
+  designExpressionPrimers();
+}
+
+function getReverseComplement(dnaStr) {
+  const pairs = { A: 'T', T: 'A', C: 'G', G: 'C' };
+  return dnaStr.toUpperCase().split('').reverse().map(base => pairs[base] || base).join('');
+}
+
+function analyzeOligo(sequence) {
+  const seq = sequence.toUpperCase();
+  const count = { A: 0, T: 0, G: 0, C: 0 };
+  for (let char of seq) {
+    if (count[char] !== undefined) count[char]++;
+  }
+  const total = seq.length;
+  const gcCount = count.G + count.C;
+  const gcContent = total > 0 ? ((gcCount / total) * 100).toFixed(1) : 0;
+  const tm = 2 * (count.A + count.T) + 4 * (count.G + count.C);
+  
+  return { seq, length: total, gcContent, tm };
+}
+
+function designExpressionPrimers() {
+  const peptideVal = document.getElementById('peptideInput').value;
+  const host = document.getElementById('hostBiasSelect').value;
+  const primerLength = parseInt(document.getElementById('primerLengthSlider').value);
+
+  const cleanPeptide = peptideVal.toUpperCase().replace(/[^ACDEFGHIKLMNPQRSTVWY]/g, '');
+  if (!cleanPeptide) {
+    document.getElementById('primerColdState').style.display = 'block';
+    document.getElementById('primerColdState').innerHTML = `
+      <div style="font-size: 2.2rem; margin-bottom: 12px;">⚗️</div>
+      Run the optimizer to design PCR primers and see details here.
+    `;
+    document.getElementById('primerResultsPanel').style.display = 'none';
+    return;
+  }
+
+  // 1. Reverse Translate peptide to cDNA sequence string
+  const table = PEPTIDE_CODON_TABLES[host];
+  let cdnaStr = '';
+  for (let aa of cleanPeptide) {
+    cdnaStr += table[aa] || '';
+  }
+
+  if (cdnaStr.length < primerLength) {
+    document.getElementById('primerColdState').style.display = 'block';
+    document.getElementById('primerColdState').innerHTML = `
+      <div style="font-size: 2.2rem; margin-bottom: 12px;">⚠️</div>
+      <span style="color: var(--red);">The optimized cDNA sequence length (${cdnaStr.length} bp) is shorter than the desired primer length (${primerLength} bp). Please enter a longer peptide chain!</span>
+    `;
+    document.getElementById('primerResultsPanel').style.display = 'none';
+    return;
+  }
+
+  // Hide cold state
+  document.getElementById('primerColdState').style.display = 'none';
+  document.getElementById('primerResultsPanel').style.display = 'block';
+
+  // 2. Derive Forward Primer
+  const fwdSeq = cdnaStr.substring(0, primerLength);
+  const forwardPrimer = analyzeOligo(fwdSeq);
+
+  // 3. Derive Reverse Primer
+  const revSegment = cdnaStr.substring(cdnaStr.length - primerLength);
+  const revSeq = getReverseComplement(revSegment);
+  const reversePrimer = analyzeOligo(revSeq);
+
+  // 4. Update UI
+  document.getElementById('cdnaOutputText').textContent = cdnaStr;
+
+  // Fwd UI
+  document.getElementById('fwdPrimerText').textContent = forwardPrimer.seq;
+  document.getElementById('fwdLength').textContent = `${forwardPrimer.length}bp`;
+  document.getElementById('fwdGc').textContent = `${forwardPrimer.gcContent}%`;
+  document.getElementById('fwdTm').textContent = `${forwardPrimer.tm}°C`;
+
+  // Rev UI
+  document.getElementById('revPrimerText').textContent = reversePrimer.seq;
+  document.getElementById('revLength').textContent = `${reversePrimer.length}bp`;
+  document.getElementById('revGc').textContent = `${reversePrimer.gcContent}%`;
+  document.getElementById('revTm').textContent = `${reversePrimer.tm}°C`;
+
+  // 5. Validation Warning
+  const tmDifference = Math.abs(forwardPrimer.tm - reversePrimer.tm);
+  const tmWarning = tmDifference > 5;
+  const warningPanel = document.getElementById('primerWarningPanel');
+
+  if (tmWarning) {
+    warningPanel.style.cssText = 'margin-top: 16px; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 0.78rem; display: flex; align-items: center; justify-content: space-between; background: rgba(255, 91, 91, 0.1); border: 1px solid rgba(255, 91, 91, 0.25); color: #ff8b8b;';
+    warningPanel.innerHTML = `
+      <span>ΔT_m Discrepancy Matrix: ${tmDifference.toFixed(1)}°C</span>
+      <span style="font-family: 'DM Sans', sans-serif; font-weight: bold; font-size: 0.65rem; text-transform: uppercase; background: rgba(255, 91, 91, 0.2); border: 1px solid var(--red); padding: 2px 8px; border-radius: 4px; letter-spacing: 0.05em; display: inline-flex; align-items: center; gap: 4px;">
+        ⚠️ High Dimer Risk (Keep ΔT_m ≤ 5°C)
+      </span>
+    `;
+  } else {
+    warningPanel.style.cssText = 'margin-top: 16px; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 0.78rem; display: flex; align-items: center; justify-content: space-between; background: rgba(0, 232, 122, 0.1); border: 1px solid rgba(0, 232, 122, 0.25); color: var(--green);';
+    warningPanel.innerHTML = `
+      <span>ΔT_m Discrepancy Matrix: ${tmDifference.toFixed(1)}°C</span>
+      <span style="font-family: 'DM Sans', sans-serif; font-weight: bold; font-size: 0.65rem; text-transform: uppercase; background: rgba(0, 232, 122, 0.2); border: 1px solid var(--green); padding: 2px 8px; border-radius: 4px; letter-spacing: 0.05em; display: inline-flex; align-items: center; gap: 4px;">
+        ✓ Stable Primer Pair
+      </span>
+    `;
+  }
+}
 
 // Initialize DNA Toolkit on load
 window.addEventListener('DOMContentLoaded', () => {
@@ -1373,6 +1610,12 @@ window.addEventListener('DOMContentLoaded', () => {
   
   // Pre-load Alignment presets
   loadAlignPreset('pep');
+
+  // Pre-load Primer Designer presets
+  loadPeptidePreset('MDYKDDDDK');
+
+  // Wire up selector changes
+  document.getElementById('hostBiasSelect').addEventListener('change', designExpressionPrimers);
 });
 </script>
 </body>
