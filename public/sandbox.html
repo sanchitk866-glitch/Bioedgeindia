@@ -283,6 +283,34 @@
     color: #f97316;
     border: 1px solid rgba(249, 115, 22, 0.2);
   }
+
+  /* Gel Electrophoresis Simulator styling */
+  .ladder-band {
+    position: absolute;
+    left: 0;
+    right: 8px;
+    height: 4px;
+    background: rgba(34, 211, 238, 0.85);
+    box-shadow: 0 0 8px rgba(34, 211, 238, 0.6);
+    transition: opacity 0.5s ease;
+  }
+  .ladder-band::after {
+    content: attr(data-size);
+    position: absolute;
+    right: 0;
+    top: 5px;
+    font-size: 8px;
+    font-family: monospace;
+    color: rgba(165, 243, 252, 0.6);
+    transform: scale(0.9);
+  }
+  .gel-running-pulse {
+    animation: gelPulse 1.5s infinite;
+  }
+  @keyframes gelPulse {
+    0%, 100% { background-color: rgba(220, 38, 38, 0.2); }
+    50% { background-color: rgba(220, 38, 38, 0.6); }
+  }
 </style>
 </head>
 <body>
@@ -607,6 +635,76 @@
           <!-- Validation Metric Block -->
           <div id="primerWarningPanel" style="margin-top: 16px; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 0.78rem; display: flex; align-items: center; justify-content: space-between;">
             <!-- Rendered dynamically -->
+          </div>
+
+          <!-- Virtual Agarose Gel Electrophoresis Simulator -->
+          <div class="gel-simulator-container" style="margin-top: 20px; border: 1px solid var(--border); border-radius: 12px; padding: 16px; background: rgba(255,255,255,0.01);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+              <div>
+                <h3 style="font-size: 0.85rem; font-weight: bold; color: var(--teal); text-transform: uppercase; margin: 0; display: flex; align-items: center; gap: 6px;">
+                  🧪 Virtual Agarose Gel Analysis (1.5% Gel)
+                </h3>
+                <p id="gelTargetLabel" style="font-size: 0.68rem; font-family: monospace; color: var(--muted); margin: 4px 0 0 0;">Target: -</p>
+              </div>
+              
+              <button
+                id="btnRunGel"
+                onclick="toggleGelElectrophoresis()"
+                class="style-chip"
+                style="padding: 6px 14px; font-family: monospace; font-size: 0.72rem; border-color: var(--teal); color: var(--teal); background: rgba(0, 212, 170, 0.05); font-weight: bold; cursor: pointer; transition: all 0.2s;"
+              >
+                ⚡ RUN ELECTROPHORESIS
+              </button>
+            </div>
+
+            <!-- The Gel Tank Visual Wrapper Container -->
+            <div style="position: relative; width: 100%; background-color: #020617; border: 1px solid var(--border); border-radius: 8px; padding: 16px; height: 320px; display: flex; gap: 24px; overflow: hidden; user-select: none;">
+              
+              <!-- Cathode Indicator (Top Negative Terminal) -->
+              <div style="position: absolute; top: 0; left: 0; right: 0; height: 6px; background: rgba(37, 99, 235, 0.3); display: flex; align-items: center; justify-content: center; font-size: 8px; font-family: monospace; color: #60a5fa; tracking-widest: 0.1em; text-transform: uppercase;">
+                Cathode (-)
+              </div>
+
+              <!-- Anode Indicator (Bottom Positive Terminal) -->
+              <div id="gelAnode" style="position: absolute; bottom: 0; left: 0; right: 0; height: 6px; background: rgba(220, 38, 38, 0.2); display: flex; align-items: center; justify-content: center; font-size: 8px; font-family: monospace; color: #f87171; tracking-widest: 0.1em; text-transform: uppercase; transition: background-color 0.3s;">
+                Anode (+)
+              </div>
+
+              <!-- LOADING WELLS TOP BAR -->
+              <div style="position: absolute; top: 16px; left: 24px; right: 24px; height: 12px; display: flex; gap: 24px;">
+                <div style="width: 50%; background: #0b1329; border: 1px solid #1e293b; border-radius: 2px; font-size: 8px; font-family: monospace; color: #475569; display: flex; align-items: center; justify-content: center;">Well 1 (Marker)</div>
+                <div style="width: 50%; background: #0b1329; border: 1px solid #1e293b; border-radius: 2px; font-size: 8px; font-family: monospace; color: #475569; display: flex; align-items: center; justify-content: center;">Well 2 (PCR)</div>
+              </div>
+
+              <!-- LANE 1: Reference DNA Ladder Channel -->
+              <div style="width: 50%; height: 100%; position: relative; border-right: 1px solid rgba(15, 23, 42, 0.6); padding-right: 8px; padding-top: 24px;">
+                <span style="position: absolute; top: 20px; left: 0; font-size: 9px; font-family: monospace; color: #64748b; text-transform: uppercase; tracking-wider: 0.05em;">Lane 1: 1kb Marker</span>
+                
+                <!-- Ladder Bands (1500, 1000, 750, 500, 250, 100 bp) -->
+                <div class="ladder-band" data-size="1500 bp" style="top: 12%; opacity: 0;"></div>
+                <div class="ladder-band" data-size="1000 bp" style="top: 22%; opacity: 0;"></div>
+                <div class="ladder-band" data-size="750 bp" style="top: 35%; opacity: 0;"></div>
+                <div class="ladder-band" data-size="500 bp" style="top: 52%; opacity: 0;"></div>
+                <div class="ladder-band" data-size="250 bp" style="top: 75%; opacity: 0;"></div>
+                <div class="ladder-band" data-size="100 bp" style="top: 90%; opacity: 0;"></div>
+              </div>
+
+              <!-- LANE 2: Dynamic PCR Product Channel -->
+              <div style="width: 50%; height: 100%; position: relative; padding-top: 24px;">
+                <span style="position: absolute; top: 20px; left: 8px; font-size: 9px; font-family: monospace; color: #64748b; text-transform: uppercase; tracking-wider: 0.05em;">Lane 2: PCR Amplicon</span>
+                
+                <div id="gelProductBand" style="position: absolute; left: 8px; right: 0; height: 5px; background: #34d399; box-shadow: 0 0 14px #34d399, 0 0 4px #34d399; border-radius: 2px; transition: top 0.1s linear, opacity 0.3s; opacity: 0; top: 24px;"></div>
+                
+                <div id="gelYieldLabel" style="position: absolute; font-size: 9px; font-family: monospace; color: #34d399; font-weight: bold; background: rgba(6, 78, 59, 0.7); border: 1px solid rgba(16, 185, 129, 0.4); padding: 2px 6px; border-radius: 4px; display: none; left: 12px; z-index: 2;">
+                  Yield: -
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top: 12px; font-size: 9px; color: var(--muted); display: flex; flex-direction: column; gap: 2px; font-family: monospace;">
+              <span>• Ethidium Bromide (EtBr) simulation under 302nm UV light.</span>
+              <span>• Smaller molecules encounter less frictional resistance and migrate faster towards the positive anode.</span>
+            </div>
           </div>
         </div>
       </div>
@@ -1601,6 +1699,143 @@ function designExpressionPrimers() {
       </span>
     `;
   }
+
+  // Update Gel target length based on the designed cDNA product
+  updateGelTarget(cdnaStr.length);
+}
+
+// ===== GEL ELECTROPHORESIS SIMULATOR LOGIC =====
+let gelRunning = false;
+let gelProgress = 0;
+let gelInterval = null;
+let pcrProductLength = 0;
+
+function updateGelTarget(length) {
+  pcrProductLength = length;
+  const label = document.getElementById('gelTargetLabel');
+  if (label) {
+    label.textContent = `Target: ${pcrProductLength} bp Amplicon`;
+  }
+  resetGelElectrophoresis();
+}
+
+function calculateBandMigration(bp) {
+  const bpNum = parseInt(bp) || 100;
+  if (bpNum >= 1500) return 12;
+  if (bpNum <= 100) return 90;
+  
+  const maxBp = 1500;
+  const minBp = 100;
+  const maxTop = 90;
+  const minTop = 12;
+  
+  const logMax = Math.log10(maxBp);
+  const logMin = Math.log10(minBp);
+  const logCurrent = Math.log10(bpNum);
+  
+  const scale = (logMax - logCurrent) / (logMax - logMin);
+  return minTop + scale * (maxTop - minTop);
+}
+
+function resetGelElectrophoresis() {
+  if (gelInterval) {
+    clearInterval(gelInterval);
+    gelInterval = null;
+  }
+  gelRunning = false;
+  gelProgress = 0;
+  
+  const btn = document.getElementById('btnRunGel');
+  if (btn) {
+    btn.textContent = '⚡ RUN ELECTROPHORESIS';
+    btn.style.backgroundColor = 'rgba(0, 212, 170, 0.05)';
+    btn.style.color = 'var(--teal)';
+    btn.style.borderColor = 'var(--teal)';
+    btn.style.boxShadow = 'none';
+  }
+  
+  const anode = document.getElementById('gelAnode');
+  if (anode) {
+    anode.classList.remove('gel-running-pulse');
+    anode.textContent = 'Anode (+)';
+  }
+  
+  const productBand = document.getElementById('gelProductBand');
+  if (productBand) {
+    productBand.style.opacity = '0';
+    productBand.style.top = '24px';
+  }
+  
+  const yieldLabel = document.getElementById('gelYieldLabel');
+  if (yieldLabel) {
+    yieldLabel.style.display = 'none';
+  }
+  
+  document.querySelectorAll('.ladder-band').forEach(band => {
+    band.style.opacity = '0';
+  });
+}
+
+function toggleGelElectrophoresis() {
+  if (gelRunning) {
+    resetGelElectrophoresis();
+  } else {
+    startGelElectrophoresis();
+  }
+}
+
+function startGelElectrophoresis() {
+  resetGelElectrophoresis();
+  
+  gelRunning = true;
+  
+  const btn = document.getElementById('btnRunGel');
+  if (btn) {
+    btn.textContent = '🔴 STOP POWER';
+    btn.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
+    btn.style.color = '#f87171';
+    btn.style.borderColor = '#ef4444';
+    btn.style.boxShadow = '0 0 12px rgba(239,68,68,0.2)';
+  }
+  
+  const anode = document.getElementById('gelAnode');
+  if (anode) {
+    anode.classList.add('gel-running-pulse');
+    anode.textContent = 'Anode (+) • Running Flux';
+  }
+  
+  const productBand = document.getElementById('gelProductBand');
+  if (productBand) {
+    productBand.style.opacity = '1';
+    productBand.style.top = '24px';
+  }
+  
+  const targetTop = calculateBandMigration(pcrProductLength);
+  
+  gelInterval = setInterval(() => {
+    gelProgress += 0.05;
+    if (gelProgress >= 1) {
+      gelProgress = 1;
+      clearInterval(gelInterval);
+      gelInterval = null;
+      
+      const yieldLabel = document.getElementById('gelYieldLabel');
+      if (yieldLabel) {
+        yieldLabel.style.display = 'block';
+        yieldLabel.style.top = (targetTop + 1.8) + '%';
+        yieldLabel.textContent = `Yield: ${pcrProductLength} bp`;
+      }
+    }
+    
+    document.querySelectorAll('.ladder-band').forEach(band => {
+      band.style.opacity = Math.min(1, gelProgress * 1.5);
+    });
+    
+    if (productBand) {
+      const currentTop = 10 + (targetTop - 10) * gelProgress;
+      productBand.style.top = currentTop + '%';
+    }
+  }, 60);
 }
 
 // Initialize DNA Toolkit on load
