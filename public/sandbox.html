@@ -638,7 +638,7 @@
           </div>
 
           <!-- Virtual Agarose Gel Electrophoresis Simulator -->
-          <div class="gel-simulator-container" style="margin-top: 20px; border: 1px solid var(--border); border-radius: 12px; padding: 16px; background: rgba(255,255,255,0.01);">
+          <div class="gel-simulator-container" style="margin-top: 20px; border: 1px solid var(--border); border-radius: 12px; padding: 16px; background: rgba(255,255,255,0.01); opacity: 0.4; pointer-events: none;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
               <div>
                 <h3 style="font-size: 0.85rem; font-weight: bold; color: var(--teal); text-transform: uppercase; margin: 0; display: flex; align-items: center; gap: 6px;">
@@ -651,7 +651,7 @@
                 id="btnRunGel"
                 onclick="toggleGelElectrophoresis()"
                 class="style-chip"
-                style="padding: 6px 14px; font-family: monospace; font-size: 0.72rem; border-color: var(--teal); color: var(--teal); background: rgba(0, 212, 170, 0.05); font-weight: bold; cursor: pointer; transition: all 0.2s;"
+                style="padding: 6px 14px; font-family: monospace; font-size: 0.72rem; border-color: var(--teal); color: var(--teal); background: rgba(0, 212, 170, 0.05); font-weight: bold; cursor: pointer; transition: all 0.2s; display: none;"
               >
                 ⚡ RUN ELECTROPHORESIS
               </button>
@@ -1713,9 +1713,22 @@ let pcrProductLength = 0;
 function updateGelTarget(length) {
   pcrProductLength = length;
   const label = document.getElementById('gelTargetLabel');
+  const btn = document.getElementById('btnRunGel');
+  const container = document.querySelector('.gel-simulator-container');
+  
   if (label) {
-    label.textContent = `Target: ${pcrProductLength} bp Amplicon`;
+    label.textContent = pcrProductLength ? `Target: ${pcrProductLength} bp Amplicon` : 'Target: -';
   }
+  
+  if (container) {
+    container.style.opacity = pcrProductLength ? '1' : '0.4';
+    container.style.pointerEvents = pcrProductLength ? 'auto' : 'none';
+  }
+  
+  if (btn) {
+    btn.style.display = pcrProductLength ? 'block' : 'none';
+  }
+  
   resetGelElectrophoresis();
 }
 
