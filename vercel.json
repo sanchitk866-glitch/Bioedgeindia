@@ -1,4 +1,3 @@
 {
-  "cleanUrls": true,
-  "comment": "Trigger automatic rebuild to inject new GEMINI_API_KEY environment variable"
+  "cleanUrls": true
 }
