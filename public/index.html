@@ -109,20 +109,241 @@
   .tool-desc { color: var(--muted); font-size: 0.835rem; line-height: 1.6; margin-bottom: 14px; }
   .tool-tag { display: inline-block; padding: 3px 10px; border-radius: 100px; background: rgba(0,232,122,0.1); color: var(--green); font-size: 0.72rem; font-weight: 500; }
 
-  /* INTERNSHIPS */
+  /* INTERNSHIPS & OPPORTUNITY TRACKER */
   #jobs { background: var(--bg); }
-  .jobs-list { display: flex; flex-direction: column; gap: 14px; }
-  .job-card { background: var(--surface); border: 1px solid var(--border); border-radius: 13px; padding: 22px 26px; display: flex; align-items: center; justify-content: space-between; gap: 18px; transition: all 0.2s; cursor: pointer; text-decoration: none; color: inherit; }
-  .job-card:hover { border-color: rgba(0,232,122,0.3); background: var(--surface2); transform: translateX(4px); }
-  .job-left { display: flex; align-items: center; gap: 14px; }
-  .job-org { width: 42px; height: 42px; border-radius: 10px; background: rgba(0,212,170,0.1); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
-  .job-title { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.9rem; margin-bottom: 4px; }
-  .job-meta { color: var(--muted); font-size: 0.775rem; display: flex; gap: 10px; flex-wrap: wrap; }
-  .job-badge { padding: 5px 13px; border-radius: 100px; font-size: 0.72rem; font-weight: 500; white-space: nowrap; flex-shrink: 0; }
-  .badge-new { background: rgba(0,232,122,0.15); color: var(--green); }
-  .badge-intern { background: rgba(0,212,170,0.15); color: var(--teal); }
-  .badge-govt { background: rgba(255,200,0,0.1); color: #ffc800; }
-  .badge-research { background: rgba(180,120,255,0.15); color: #c084fc; }
+  
+  .jobs-controls-row {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 32px;
+    background: var(--surface);
+    padding: 20px;
+    border-radius: 18px;
+    border: 1px solid var(--border);
+  }
+  @media(min-width: 768px) {
+    .jobs-controls-row {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  .jobs-search-input {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 16px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    outline: none;
+    transition: all 0.2s;
+    width: 100%;
+  }
+  @media(min-width: 768px) {
+    .jobs-search-input {
+      width: 320px;
+    }
+  }
+  .jobs-search-input:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 12px rgba(0, 232, 122, 0.15);
+  }
+
+  .jobs-filter-chips {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  @media(min-width: 768px) {
+    .jobs-filter-chips {
+      width: auto;
+      justify-content: flex-end;
+    }
+  }
+  .jobs-filter-btn {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+  }
+  .jobs-filter-btn:hover {
+    border-color: var(--green);
+    color: var(--green);
+  }
+  .jobs-filter-btn.active {
+    background: var(--green);
+    color: var(--bg);
+    border-color: var(--green);
+    box-shadow: 0 4px 12px rgba(0, 232, 122, 0.2);
+  }
+
+  .jobs-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  @media(min-width: 768px) {
+    .jobs-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .job-notification-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.25s;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    color: inherit;
+  }
+  .job-notification-card:hover {
+    border-color: rgba(0, 232, 122, 0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  .job-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .job-card-title-block {
+    display: flex;
+    flex-direction: column;
+  }
+  .job-card-institute {
+    font-size: 0.72rem;
+    font-weight: bold;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .job-card-position {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-top: 4px;
+    transition: color 0.2s;
+  }
+  .job-notification-card:hover .job-card-position {
+    color: var(--green);
+  }
+
+  .job-card-stipend {
+    font-size: 0.72rem;
+    font-family: monospace;
+    font-weight: bold;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    padding: 4px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+
+  .job-card-project {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-top: 14px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 10px 12px;
+    border-radius: 8px;
+    border-left: 3px solid var(--teal);
+    font-style: italic;
+  }
+
+  .job-card-eligibility-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 16px;
+  }
+  .job-eligibility-badge {
+    font-size: 0.68rem;
+    font-family: monospace;
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+  }
+  .job-eligibility-badge.mandatory {
+    background: rgba(255, 91, 91, 0.08);
+    color: #ff8b8b;
+    border-color: rgba(255, 91, 91, 0.2);
+  }
+  .job-eligibility-badge.optional {
+    background: rgba(0, 212, 170, 0.08);
+    color: var(--accent);
+    border-color: rgba(0, 212, 170, 0.2);
+  }
+  .job-eligibility-badge.standard {
+    background: var(--bg);
+    color: var(--muted);
+    border-color: var(--border);
+  }
+
+  .job-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(26, 51, 38, 0.4);
+    font-size: 0.78rem;
+  }
+  .job-card-deadline {
+    color: var(--muted);
+  }
+  .job-card-deadline span {
+    font-family: monospace;
+    color: var(--text);
+  }
+  .job-card-btn {
+    background: rgba(0, 212, 170, 0.08);
+    border: 1px solid rgba(0, 212, 170, 0.25);
+    color: var(--accent);
+    padding: 6px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+    font-size: 0.75rem;
+  }
+  .job-card-btn:hover {
+    background: var(--teal);
+    color: var(--bg);
+    box-shadow: 0 0 12px rgba(0, 212, 170, 0.2);
+  }
+
+  .job-empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 48px 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    font-family: monospace;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
 
   /* CAREER */
   #career { background: var(--surface); }
@@ -392,42 +613,33 @@
 
 <div class="divider"></div>
 
-<!-- INTERNSHIPS -->
+<!-- INTERNSHIPS & OPPORTUNITY TRACKER -->
 <section id="jobs">
   <div class="section-label">💼 Opportunities</div>
-  <div class="section-title">Internships &<br>Research Positions</div>
-  <p class="section-sub">Live biology, biotech and life sciences opportunities from labs, companies and government institutes across India. Updated regularly.</p>
+  <div class="section-title">National Lab Project Portal</div>
+  <p class="section-sub">Aggregated JRF, Project Associate, and Dissertation vacancies across premium Indian institutes (CSIR, ICMR, IITs, IISc, BIRAC, etc.). Updated dynamically.</p>
   
-  <div class="jobs-filter-bar">
-    <div class="filter-chips" id="jobChips">
-      <span class="filter-chip active" tabindex="0" role="button" onclick="filterJobCategory('all', this)" onkeypress="if(event.key==='Enter'||event.key===' ') filterJobCategory('all', this)">All Openings</span>
-      <span class="filter-chip" tabindex="0" role="button" onclick="filterJobCategory('Research', this)" onkeypress="if(event.key==='Enter'||event.key===' ') filterJobCategory('Research', this)">Research</span>
-      <span class="filter-chip" tabindex="0" role="button" onclick="filterJobCategory('Internship', this)" onkeypress="if(event.key==='Enter'||event.key===' ') filterJobCategory('Internship', this)">Internship</span>
-      <span class="filter-chip" tabindex="0" role="button" onclick="filterJobCategory('Govt', this)" onkeypress="if(event.key==='Enter'||event.key===' ') filterJobCategory('Govt', this)">Govt</span>
-      <span class="filter-chip" tabindex="0" role="button" onclick="filterJobCategory('New', this)" onkeypress="if(event.key==='Enter'||event.key===' ') filterJobCategory('New', this)">New</span>
+  <!-- Search & Filter Controls -->
+  <div class="jobs-controls-row">
+    <input
+      type="text"
+      id="jobsSearchInput"
+      placeholder="🔍 Search by lab, project, domain (e.g. mRNA)..."
+      class="jobs-search-input"
+      oninput="handleJobsSearchFilter()"
+    />
+    <div class="jobs-filter-chips">
+      <button class="jobs-filter-btn active" data-category="all" onclick="setJobsFilter('all', this)">All Jobs</button>
+      <button class="jobs-filter-btn" data-category="csir" onclick="setJobsFilter('csir', this)">CSIR Labs</button>
+      <button class="jobs-filter-btn" data-category="iits-iisc" onclick="setJobsFilter('iits-iisc', this)">IITs / IISc</button>
+      <button class="jobs-filter-btn" data-category="icmr-govt" onclick="setJobsFilter('icmr-govt', this)">ICMR & Govt</button>
+      <button class="jobs-filter-btn" data-category="industry" onclick="setJobsFilter('industry', this)">Industry</button>
     </div>
   </div>
-  <div class="jobs-list">
-    <a href="https://www.niperguwahati.in" target="_blank" class="job-card"><div class="job-left"><div class="job-org">🏛</div><div><div class="job-title">Research Internship — NIPER Guwahati</div><div class="job-meta"><span>📍 Guwahati, Assam</span><span>🗓 Rolling Applications</span><span>6 months</span></div></div></div><span class="job-badge badge-research">Research</span></a>
-    <a href="https://www.iicb.res.in" target="_blank" class="job-card"><div class="job-left"><div class="job-org">🔬</div><div><div class="job-title">Summer Intern — CSIR-IICB Kolkata</div><div class="job-meta"><span>📍 Kolkata, WB</span><span>🗓 Apply by April 30</span><span>2 months</span></div></div></div><span class="job-badge badge-new">New</span></a>
-    <a href="https://www.biocon.com/careers/" target="_blank" class="job-card"><div class="job-left"><div class="job-org">💊</div><div><div class="job-title">Bioprocess Intern — Biocon Biologics</div><div class="job-meta"><span>📍 Bangalore</span><span>🗓 Open Now</span><span>Stipend: ₹15k/mo</span></div></div></div><span class="job-badge badge-intern">Internship</span></a>
-    <a href="https://www.drdo.gov.in" target="_blank" class="job-card"><div class="job-left"><div class="job-org">🛡</div><div><div class="job-title">Junior Research Fellowship — DRDO DFRL</div><div class="job-meta"><span>📍 Mysore</span><span>🗓 Notification: March 2026</span><span>₹31k/mo</span></div></div></div><span class="job-badge badge-govt">Govt</span></a>
-    <a href="https://www.cipla.com/careers" target="_blank" class="job-card"><div class="job-left"><div class="job-org">💉</div><div><div class="job-title">QC Analyst Intern — Cipla Ltd</div><div class="job-meta"><span>📍 Mumbai</span><span>🗓 Open</span><span>6 months · Stipend</span></div></div></div><span class="job-badge badge-intern">Internship</span></a>
-    <a href="https://www.ncbs.res.in" target="_blank" class="job-card"><div class="job-left"><div class="job-org">🧠</div><div><div class="job-title">Research Trainee — NCBS Bangalore</div><div class="job-meta"><span>📍 Bangalore</span><span>🗓 May–July Batch</span><span>Neuroscience / Cell Bio</span></div></div></div><span class="job-badge badge-research">Research</span></a>
-    <a href="https://www.ccmb.res.in" target="_blank" class="job-card"><div class="job-left"><div class="job-org">🧬</div><div><div class="job-title">Project Trainee — CSIR-CCMB Hyderabad</div><div class="job-meta"><span>📍 Hyderabad</span><span>🗓 Rolling</span><span>Molecular Biology</span></div></div></div><span class="job-badge badge-research">Research</span></a>
-    <a href="https://www.syngene.com" target="_blank" class="job-card"><div class="job-left"><div class="job-org">🏭</div><div><div class="job-title">Lab Operations Intern — Syngene International</div><div class="job-meta"><span>📍 Bangalore</span><span>🗓 Open</span><span>Stipend: ₹12k/mo</span></div></div></div><span class="job-badge badge-intern">Internship</span></a>
-    <a href="https://www.iitd.ac.in" target="_blank" class="job-card"><div class="job-left"><div class="job-org">🎓</div><div><div class="job-title">Summer Research — IIT Delhi Biochemistry</div><div class="job-meta"><span>📍 New Delhi</span><span>🗓 Apply by May 15</span><span>SURGE Programme</span></div></div></div><span class="job-badge badge-new">New</span></a>
-    <a href="https://www.tatachemicals.com/careers" target="_blank" class="job-card"><div class="job-left"><div class="job-org">🌱</div><div><div class="job-title">Agri-Biotech Intern — Tata Chemicals</div><div class="job-meta"><span>📍 Pune</span><span>🗓 Open Now</span><span>3–6 months</span></div></div></div><span class="job-badge badge-intern">Internship</span></a>
-    <a href="https://www.nimr.org.in" target="_blank" class="job-card"><div class="job-left"><div class="job-org">🦠</div><div><div class="job-title">Research Fellow — ICMR-NIMR Delhi</div><div class="job-meta"><span>📍 New Delhi</span><span>🗓 Notification: April</span><span>Malaria / Infectious Disease</span></div></div></div><span class="job-badge badge-govt">Govt</span></a>
-    <a href="https://www.dbt.gov.in" target="_blank" class="job-card"><div class="job-left"><div class="job-org">🔬</div><div><div class="job-title">DBT-BINC Fellowship — DBT India</div><div class="job-meta"><span>📍 Pan India</span><span>🗓 Exam: July 2026</span><span>₹16k–₹22k/mo</span></div></div></div><span class="job-badge badge-govt">Govt</span></a>
-    <a href="https://www.manipalbiospin.com" target="_blank" class="job-card"><div class="job-left"><div class="job-org">⚗️</div><div><div class="job-title">Analytical Lab Intern — Manipal Bio-Spin</div><div class="job-meta"><span>📍 Manipal</span><span>🗓 Immediate Joining</span><span>Stipend provided</span></div></div></div><span class="job-badge badge-intern">Internship</span></a>
-    <a href="https://www.nbi.org.in" target="_blank" class="job-card"><div class="job-left"><div class="job-org">🏥</div><div><div class="job-title">Clinical Research Intern — NBI Hyderabad</div><div class="job-meta"><span>📍 Hyderabad</span><span>🗓 Open</span><span>Clinical Trials</span></div></div></div><span class="job-badge badge-intern">Internship</span></a>
-    <a href="https://www.indiabiotech.org" target="_blank" class="job-card"><div class="job-left"><div class="job-org">🚀</div><div><div class="job-title">Biotech Startup Intern — ABLE Member Companies</div><div class="job-meta"><span>📍 Multiple Cities</span><span>🗓 Rolling</span><span>Various Domains</span></div></div></div><span class="job-badge badge-intern">Internship</span></a>
-    <a href="https://www.sbi.org.in" target="_blank" class="job-card"><div class="job-left"><div class="job-org">📊</div><div><div class="job-title">Biostatistics Intern — SBI Life (Health Data)</div><div class="job-meta"><span>📍 Mumbai</span><span>🗓 Open</span><span>Data + Biology crossover</span></div></div></div><span class="job-badge badge-new">New</span></a>
-    <a href="https://www.igib.res.in" target="_blank" class="job-card"><div class="job-left"><div class="job-org">🧬</div><div><div class="job-title">Project Trainee — CSIR-IGIB New Delhi</div><div class="job-meta"><span>📍 New Delhi</span><span>🗓 Rolling Applications</span><span>Genomics / COVID research</span></div></div></div><span class="job-badge badge-research">Research</span></a>
-    <a href="https://www.thermax.com" target="_blank" class="job-card"><div class="job-left"><div class="job-org">🌿</div><div><div class="job-title">Environmental Biotech Intern — Thermax</div><div class="job-meta"><span>📍 Pune</span><span>🗓 Open</span><span>Wastewater / Bioremediation</span></div></div></div><span class="job-badge badge-intern">Internship</span></a>
-    <a href="https://www.jnu.ac.in" target="_blank" class="job-card"><div class="job-left"><div class="job-org">🎓</div><div><div class="job-title">Short-Term Research — JNU School of Life Sciences</div><div class="job-meta"><span>📍 New Delhi</span><span>🗓 Apply May onwards</span><span>Cell Biology / Genetics</span></div></div></div><span class="job-badge badge-research">Research</span></a>
-    <a href="https://www.serum.co.in" target="_blank" class="job-card"><div class="job-left"><div class="job-org">🩺</div><div><div class="job-title">Vaccine Research Intern — Serum Institute</div><div class="job-meta"><span>📍 Pune</span><span>🗓 Competitive Selection</span><span>Immunology focus</span></div></div></div><span class="job-badge badge-new">New</span></a>
+
+  <!-- Listings Grid -->
+  <div class="jobs-grid" id="jobsContainer">
+    <div class="job-empty-state">Loading latest national lab opportunities...</div>
   </div>
 </section>
 
@@ -575,6 +787,125 @@ function sendSuggestion(el){
   document.getElementById('chatInput').value=el.textContent;
   sendMessage();
 }
+
+// ===== JOB OPPORTUNITY TRACKER =====
+let jobsListings = [];
+let activeJobsFilter = 'all';
+let jobsSearchQuery = '';
+
+async function loadJobsNotifications() {
+  const container = document.getElementById('jobsContainer');
+  try {
+    const res = await fetch('/data/notifications.json');
+    if (!res.ok) throw new Error('Failed to load listings data.');
+    jobsListings = await res.json();
+    renderJobsListings();
+  } catch (err) {
+    console.error("Error loading job notifications:", err);
+    if (container) {
+      container.innerHTML = `
+        <div class="job-empty-state">
+          ❌ Failed to load live vacancies. Please refresh or try again later.
+        </div>
+      `;
+    }
+  }
+}
+
+function renderJobsListings() {
+  const container = document.getElementById('jobsContainer');
+  if (!container) return;
+
+  const filtered = jobsListings.filter(job => {
+    const matchesFilter = activeJobsFilter === 'all' || job.category === activeJobsFilter;
+    const matchesSearch = job.institute.toLowerCase().includes(jobsSearchQuery.toLowerCase()) ||
+                          job.project.toLowerCase().includes(jobsSearchQuery.toLowerCase()) ||
+                          job.position.toLowerCase().includes(jobsSearchQuery.toLowerCase());
+    return matchesFilter && matchesSearch;
+  });
+
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div class="job-empty-state">
+        ❌ No active notifications matching the current criteria.
+      </div>
+    `;
+    return;
+  }
+
+  let html = '';
+  filtered.forEach(job => {
+    // Determine badging styles
+    const badgesHtml = job.eligibility.map(elig => {
+      let badgeClass = 'standard';
+      if (elig.includes('Mandatory') || elig.includes('Required')) {
+        badgeClass = 'mandatory';
+      } else if (elig.includes('Optional') || elig.includes('Needed')) {
+        badgeClass = 'optional';
+      }
+      return `<span class="job-eligibility-badge ${badgeClass}">${elig}</span>`;
+    }).join('');
+
+    html += `
+      <div class="job-notification-card">
+        <div>
+          <div class="job-card-header">
+            <div class="job-card-title-block">
+              <span class="job-card-institute">${job.institute}</span>
+              <h2 class="job-card-position">${job.position}</h2>
+            </div>
+            <span class="job-card-stipend">💰 ${job.stipend}</span>
+          </div>
+
+          <p class="job-card-project">
+            Project: "${job.project}"
+          </p>
+
+          <div class="job-card-eligibility-row">
+            ${badgesHtml}
+          </div>
+        </div>
+
+        <div class="job-card-footer">
+          <span class="job-card-deadline">
+            ⏰ Apply by: <span>${job.deadline}</span>
+          </span>
+          
+          <a 
+            href="${job.pdfLink}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="job-card-btn"
+          >
+            View Official Portal ↗
+          </a>
+        </div>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+}
+
+function setJobsFilter(category, btn) {
+  activeJobsFilter = category;
+  document.querySelectorAll('.jobs-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderJobsListings();
+}
+
+function handleJobsSearchFilter() {
+  const searchInput = document.getElementById('jobsSearchInput');
+  if (searchInput) {
+    jobsSearchQuery = searchInput.value;
+  }
+  renderJobsListings();
+}
+
+// Call on startup
+document.addEventListener('DOMContentLoaded', () => {
+  loadJobsNotifications();
+});
 
 // ===== ACTIVE NAV =====
 window.addEventListener('scroll',()=>{
