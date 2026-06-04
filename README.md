@@ -1,128 +1,151 @@
 # 🧬 BioEdge India
 
-> **Free AI-powered platform for biology & life sciences students across India**
+> **A premium, free, AI-powered computational biology platform for life science students and researchers across India.**
 
-[![Live Site](https://img.shields.io/badge/🌐_Live_Site-bioedgeindia.vercel.app-0d9488?style=for-the-badge)](https://bioedgeindia.vercel.app)
-[![Built with Gemini](https://img.shields.io/badge/Powered_by-Gemini_AI-4285F4?style=for-the-badge&logo=google)](https://ai.google.dev/)
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed_on-Vercel-000000?style=for-the-badge&logo=vercel)](https://vercel.com)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+<p align="center">
+  <img src="./public/logo.jpg" alt="BioEdge India Logo" width="140" style="border-radius: 50%; box-shadow: 0 4px 20px rgba(0, 232, 122, 0.25);" />
+</p>
 
----
-
-## 🌱 Why BioEdge India?
-
-As a biology student in India, I kept hitting the same wall — resources were either **too expensive**, hidden behind paywalls, or simply didn't exist in one place. I couldn't find a free molecular docking certificate. Workshops cost thousands. AI tools for science felt out of reach.
-
-So I built BioEdge India — **completely free**, built for students like me, by a student like me.
-
----
-
-## ✨ What's on the Platform
-
-| Feature | Description |
-|---|---|
-| 🤖 **AI Chatbot** | Gemini-powered biology assistant — ask anything about cells, genetics, ecology, and more |
-| 🛠️ **30+ AI Tools** | Curated directory of AI tools useful for life science students and researchers |
-| 💼 **Internship Board** | 20+ internship listings from CSIR, Biocon, IIT Delhi, DRDO, and other Indian organisations |
-| 🗺️ **Career Roadmaps** | Step-by-step guides for careers in Biotech, Research, Bioinformatics, and more |
-| 📰 **Bio News** | Simplified science news — CRISPR, genomics, drug discovery, and beyond |
+<p align="center">
+  <a href="https://bioedgeindia.vercel.app">
+    <img src="https://img.shields.io/badge/🌐_Live_Site-bioedgeindia.vercel.app-00e87a?style=for-the-badge&logoColor=040d0a" alt="Live Site" />
+  </a>
+  <a href="https://ai.google.dev/">
+    <img src="https://img.shields.io/badge/Powered_by-Gemini_AI-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Powered by Gemini" />
+  </a>
+  <a href="https://vercel.com">
+    <img src="https://img.shields.io/badge/Deployed_on-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Deployed on Vercel" />
+  </a>
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-cyan?style=for-the-badge" alt="License" />
+  </a>
+</p>
 
 ---
 
-## 🏗️ Tech Stack
+## 🌟 The Mission
+
+Biology education in India is full of promise, yet students face high paywalls, fragmented listings, and expensive bioinformatics training software. 
+
+**BioEdge India** was built to break those barriers — providing **completely free**, interactive client-side simulators, molecular viewers, live opportunity aggregators, and AI-driven tutoring tools in one cohesive, high-performance web experience.
+
+---
+
+## 🚀 Key Features
+
+### 🧪 1. Interactive Bioinformatics Sandbox (`/sandbox`)
+A client-side laboratory dashboard featuring five computational biology utilities:
+*   🧬 **DNA Toolkit**: Upper-case sanitization, live FASTA header parser, codon-triplet visualizer, chemical-coded amino acid translation matrix, Wallace melting temperature ($T_m$), and dynamic base composition charts.
+*   🔬 **Alignment Lab**: Needleman-Wunsch global sequence aligner rendering dynamic scoring tables, backtrack highlights, and cell scoring formula hover tooltips.
+*   🧬 **Primer Designer**: Organism-specific codon-biased reverse translator (*E. coli* vs. *H. sapiens*) with GC content projection, melting temperatures, and active primer dimer/Δ$T_m$ warning panels.
+*   ⚡ **Virtual Agarose Gel Simulator**: Real-time 2D agarose gel physics simulation mapping DNA base pairs to vertical migration distance logarithmically. Interactive voltage pulse, Ethidium Bromide (EtBr) UV glow animations, and direct data-binding to custom designed primers.
+*   💎 **3D Molecular Viewer & Pocket Analyzer**: 3D WebGL protein rendering (ribbon, stick, spacefill, lines) with preloaded structures (CDK2, HIV-1 Protease, GFP) and custom PDB fetching. Dynamically calculates Euclidean distances ($d = \sqrt{\Delta x^2 + \Delta y^2 + \Delta z^2}$), isolates binding pocket residues, overlays 3D labels, and ranks proximity contacts (H-Bonds/VdW).
+
+### 📡 2. National Bio-Events & Hackathon Radar (`/radar`)
+An active events dashboard that dynamically tracks biotechnology hackathons, symposiums, and workshops in India:
+*   **Live Scraper Integration**: Queries `https://indiabioscience.org/events` via a Node.js serverless API to retrieve live listings, categorize them, and parse location details on the fly.
+*   **Resilient API Fallback**: Automated static client-side fallback to `events.json` if serverless execution fails.
+*   **Teammate Finder Pipeline**: Fosters student collaboration by linking listings to LinkedIn networks.
+
+### 💼 3. National Lab Projects & Vacancy Tracker (`/#jobs`)
+An active opportunities dashboard displaying JRF (Junior Research Fellow), project scientist, and dissertation vacancies across premium institutes (CSIR-CCMB, IISc, ICMR-NII, BIRAC, etc.).
+*   **Dynamic JSON Backend**: Decoupled listings structure enabling instant weekly catalog updates without source recompilations.
+*   **Intelligent Filters**: Badges highlighting mandatory eligibility criteria (NET/GATE Required vs. Optional).
+
+### 🤖 4. AI Biology Chat & Curated Directories (`/#chatbot`)
+*   **AI Biology Chatbot**: Secure Gemini-powered chat window tailored to clarify complex molecular genetics, biochem, and bioinformatics concepts.
+*   **AI Tools Directory**: A curated list of 30+ computational and AI tools for biology.
+
+---
+
+## 🏗️ Technical Stack & Architecture
 
 ```
-Frontend     →  Single-file HTML + Vanilla JS + CSS
-AI Backend   →  Google Gemini API (via Vercel Serverless Function)
-Deployment   →  Vercel
-Analytics    →  Google Analytics + Google Search Console
+Client / UI   →  Vanilla HTML5 + CSS3 (Glassmorphism, custom Keyframe Animations) + Vanilla JavaScript
+Serverless    →  Node.js API Handlers (Google Gemini API proxy, IndiaBioscience HTML Scraper)
+Database      →  Decoupled Client JSON Catalogs (events.json, notifications.json)
+Hosting       →  Vercel (Static Assets + Serverless Engine)
+SEO & Analytics →  Google Analytics + Sitemap XML + Robots TXT
 ```
 
-### Repo Structure
+### Repository Structure
 
 ```
-bioedge-india/
-├── index.html          # Entire frontend — one file, zero frameworks
-├── sitemap.xml         # For SEO & Google Search Console
-├── vercel.json         # Deployment + API rewrite config
-└── api/
-    └── chat.js         # Serverless function — Gemini API proxy
+Bioedgeindia/
+├── public/                 # Static Assets & Frontend Pages
+│   ├── index.html          # Homepage & Job Tracker UI
+│   ├── sandbox.html        # Bioinformatics Sandbox & Simulators
+│   ├── radar.html          # National Bio-Radar Dashboard
+│   ├── robots.txt          # Crawler Instructions
+│   ├── sitemap.xml         # Search Engine Optimization Index
+│   ├── logo.jpg            # Branding Asset
+│   ├── pdb/                # Preloaded Local Protein Coordinates
+│   └── data/               
+│       ├── events.json         # Curated Fallback Fests & Hackathons
+│       └── notifications.json  # Curated JRF & National Lab Opportunities
+├── api/                    # Vercel Serverless Functions (Backend)
+│   ├── Chat.js             # Gemini API Secure Proxy
+│   ├── events.js           # Live HTML Scraper for IndiaBioscience Feed
+│   └── posts.js            # Mock announcements feed
+└── vercel.json             # Deployment settings & API rewrites
 ```
 
 ---
 
-## 🚀 Run Locally
+## 🛠️ Run Locally
 
-1. **Clone the repo**
+1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/bioedge-india.git
-   cd bioedge-india
+   git clone https://github.com/sanchitk866-glitch/Bioedgeindia.git
+   cd Bioedgeindia
    ```
 
-2. **Set up your Gemini API key**
+2. **Configure Environment Variables**
 
-   Create a `.env` file (or set environment variables in Vercel dashboard):
-   ```
-   GEMINI_API_KEY=your_api_key_here
+   Create a `.env` file in the root directory:
+   ```env
+   GEMINI_API_KEY=your_google_gemini_api_key_here
    ```
 
-3. **Install Vercel CLI and run locally**
+3. **Install Vercel CLI and Run Dev Server**
    ```bash
    npm install -g vercel
    vercel dev
    ```
 
-4. Open `http://localhost:3000` in your browser.
-
-> **Note:** The chatbot requires a Gemini API key. Get one free at [ai.google.dev](https://ai.google.dev/).
-
----
-
-## 🌍 Deployment
-
-This project is deployed on **Vercel**. The `vercel.json` config includes an API rewrite so the Gemini key stays server-side and is never exposed to the frontend.
-
-```json
-{
-  "rewrites": [{ "source": "/api/:path*", "destination": "/api/:path*" }]
-}
-```
-
-To deploy your own fork:
-```bash
-vercel --prod
-```
+4. **Launch Application**
+   Open `http://localhost:3000` in your web browser.
 
 ---
 
 ## 🤝 Contributing
 
-BioEdge India is a solo student project, but contributions are welcome!
+Contributions to grow free life science resources in India are welcome!
 
-- Found a bug? Open an **Issue**
-- Want to add a resource or feature? Submit a **Pull Request**
-- Have internship leads or tool suggestions? Reach out on [LinkedIn](https://linkedin.com/in/your-profile)
-
-Please keep contributions aligned with the mission: **free, accessible, and genuinely useful for Indian biology students.**
+1. Fork this repository.
+2. Create your feature branch (`git checkout -b feature/NewTool`).
+3. Commit your changes (`git commit -m "feat: add phylogenetic tree tool"`).
+4. Push to the branch (`git push origin feature/NewTool`).
+5. Open a Pull Request.
 
 ---
 
 ## 📬 Connect
 
-**Sanchit Kumar** — Founder, BioEdge India
-B.Sc. Life Sciences, Sri Aurobindo College, Delhi University
+**Sanchit Kumar** — Founder, BioEdge India  
+*B.Sc. Life Sciences, Sri Aurobindo College, University of Delhi*
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=flat-square&logo=linkedin)](https://linkedin.com/in/your-profile)
-[![Email](https://img.shields.io/badge/Email-Reach_Out-D14836?style=flat-square&logo=gmail)](mailto:your@email.com)
-
----
-
-## 📄 License
-
-This project is open source under the [MIT License](LICENSE).
+<p align="left">
+  <a href="https://www.linkedin.com/company/bioedge-india/">
+    <img src="https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
+  </a>
+  <a href="mailto:sanchitk866@gmail.com">
+    <img src="https://img.shields.io/badge/Email-Reach_Out-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" />
+  </a>
+</p>
 
 ---
 
 <p align="center">
-  Built with 🧬 and zero budget · Made in India · For every biology student who couldn't afford the paywall
+  Built with 🧬, 💻, and ❤️ in India. Free & accessible for every biology student.
 </p>
