@@ -433,18 +433,30 @@ let radarSearchQuery = '';
 async function loadRadarEvents() {
   const container = document.getElementById('radarContainer');
   try {
-    const res = await fetch('/data/events.json');
+    let res = await fetch('/api/events');
+    if (!res.ok) {
+      console.warn("API returned error, falling back to local events catalog.");
+      res = await fetch('/data/events.json');
+    }
     if (!res.ok) throw new Error('Failed to fetch events catalog.');
     radarEvents = await res.json();
     renderRadarEvents();
   } catch (err) {
-    console.error("Error loading events radar:", err);
-    if (container) {
-      container.innerHTML = `
-        <div class="event-empty-state">
-          ❌ Failed to load bio-events. Please refresh or try again later.
-        </div>
-      `;
+    console.error("Error loading events radar from API, trying fallback...", err);
+    try {
+      const res = await fetch('/data/events.json');
+      if (!res.ok) throw new Error('Failed to fetch fallback events catalog.');
+      radarEvents = await res.json();
+      renderRadarEvents();
+    } catch (fallbackErr) {
+      console.error("All event loading attempts failed:", fallbackErr);
+      if (container) {
+        container.innerHTML = `
+          <div class="event-empty-state">
+            ❌ Failed to load bio-events. Please refresh or try again later.
+          </div>
+        `;
+      }
     }
   }
 }
