@@ -208,6 +208,81 @@
   ::-webkit-scrollbar { width: 5px; height: 5px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  @media (min-width: 901px) {
+    .molecular-viewer-grid {
+      grid-template-columns: 1.6fr 1fr !important;
+    }
+  }
+
+  .pocket-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    font-family: monospace;
+    font-size: 0.78rem;
+    transition: all 0.2s;
+  }
+  .pocket-item:hover {
+    border-color: var(--muted);
+    background: var(--surface2);
+  }
+  .pocket-item-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .pocket-item-name {
+    font-weight: bold;
+  }
+  .pocket-item-name.hbond {
+    color: #fbbf24; /* Yellow-400 */
+  }
+  .pocket-item-name.vdw {
+    color: #f97316; /* Orange-500 */
+  }
+  .pocket-item-chain {
+    font-size: 0.65rem;
+    color: var(--muted);
+    background: var(--surface2);
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+  .pocket-item-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .pocket-item-dist {
+    color: var(--text);
+    font-weight: 500;
+  }
+  .pocket-item-badge {
+    font-size: 0.65rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    width: 60px;
+    text-align: center;
+  }
+  .pocket-item-badge.hbond {
+    background: rgba(251, 191, 36, 0.1);
+    color: #fbbf24;
+    border: 1px solid rgba(251, 191, 36, 0.2);
+  }
+  .pocket-item-badge.vdw {
+    background: rgba(249, 115, 22, 0.1);
+    color: #f97316;
+    border: 1px solid rgba(249, 115, 22, 0.2);
+  }
 </style>
 </head>
 <body>
@@ -422,46 +497,8 @@
 
   <!-- TAB 3: MOLECULAR VIEWER -->
   <section id="molecular-viewer" class="sandbox-content">
-    <div class="sandbox-grid">
-      <!-- Options Panel -->
-      <div class="sandbox-card">
-        <h2>Structure controls</h2>
-        <p>Render high-resolution, three-dimensional structures right inside the browser using WebGL-cached models.</p>
-
-        <div class="viewer-controls">
-          <div class="viewer-preset-wrap">
-            <label for="pdbPresetSelect">Select Molecule Preset</label>
-            <select class="viewer-select" id="pdbPresetSelect" onchange="loadPresetStructure()">
-              <option value="1AQ1">CDK2 with bound Inhibitor (1AQ1) — flagship cancer target</option>
-              <option value="1HSG">HIV-1 Protease with Indinavir (1HSG) — drug design model</option>
-              <option value="1EMA">Green Fluorescent Protein (1EMA) — cellular marker</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="viewer-input-group">
-          <input type="text" id="customPdbInput" placeholder="Or type RCSB PDB ID (e.g. 1MBO)" uppercase>
-          <button class="btn-load" onclick="loadCustomPdb()">Load ID</button>
-        </div>
-
-        <h3>Display Representations</h3>
-        <div class="viewer-style-row">
-          <span class="style-chip active" onclick="switch3DStyle('cartoon', this)">Cartoon/Ribbon</span>
-          <span class="style-chip" onclick="switch3DStyle('sphere', this)">Spacefill (Sphere)</span>
-          <span class="style-chip" onclick="switch3DStyle('stick', this)">Sticks</span>
-          <span class="style-chip" onclick="switch3DStyle('line', this)">Lines</span>
-        </div>
-
-        <h3>Interactive Interactions</h3>
-        <button class="btn-action-outline" onclick="toggleLigandHighlight()">
-          <span>🔍</span> Highlight Ligand & Zoom Pocket
-        </button>
-        <button class="btn-action-outline" style="margin-top:8px;" onclick="toggleViewerBackground()">
-          <span>🌓</span> Toggle Canvas Contrast Mode
-        </button>
-      </div>
-
-      <!-- 3D Canvas Box -->
+    <div class="sandbox-grid molecular-viewer-grid">
+      <!-- 3D Canvas Box (Left Column, taking more space) -->
       <div class="sandbox-card" style="padding-bottom: 20px;">
         <h2>3D Molecular View</h2>
         <p>Use left-mouse click to rotate, right-mouse click to pan, and scroll-wheel to zoom in/out of the binding site.</p>
@@ -470,6 +507,78 @@
           <div class="viewer-status" id="viewerSpinner">
             <div class="spinner"></div>
             <span id="viewerStatusText">Initializing WebGL environment...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls & Analysis (Right Column) -->
+      <div style="display: flex; flex-direction: column; gap: 24px;">
+        <!-- Options Panel -->
+        <div class="sandbox-card">
+          <h2>Structure controls</h2>
+          <p>Render high-resolution, three-dimensional structures right inside the browser using WebGL-cached models.</p>
+
+          <div class="viewer-controls">
+            <div class="viewer-preset-wrap">
+              <label for="pdbPresetSelect">Select Molecule Preset</label>
+              <select class="viewer-select" id="pdbPresetSelect" onchange="loadPresetStructure()">
+                <option value="1AQ1">CDK2 with bound Inhibitor (1AQ1) — flagship cancer target</option>
+                <option value="1HSG">HIV-1 Protease with Indinavir (1HSG) — drug design model</option>
+                <option value="1EMA">Green Fluorescent Protein (1EMA) — cellular marker</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="viewer-input-group">
+            <input type="text" id="customPdbInput" placeholder="Or type RCSB PDB ID (e.g. 1MBO)" uppercase>
+            <button class="btn-load" onclick="loadCustomPdb()">Load ID</button>
+          </div>
+
+          <h3>Display Representations</h3>
+          <div class="viewer-style-row">
+            <span class="style-chip active" onclick="switch3DStyle('cartoon', this)">Cartoon/Ribbon</span>
+            <span class="style-chip" onclick="switch3DStyle('sphere', this)">Spacefill (Sphere)</span>
+            <span class="style-chip" onclick="switch3DStyle('stick', this)">Sticks</span>
+            <span class="style-chip" onclick="switch3DStyle('line', this)">Lines</span>
+          </div>
+
+          <h3>Interactive Interactions</h3>
+          <button class="btn-action-outline" onclick="toggleLigandHighlight()">
+            <span>🔍</span> Highlight Ligand & Zoom Pocket
+          </button>
+          <button class="btn-action-outline" style="margin-top:8px;" onclick="toggleViewerBackground()">
+            <span>🌓</span> Toggle Canvas Contrast Mode
+          </button>
+        </div>
+
+        <!-- Binding Pocket Analyzer Card -->
+        <div class="sandbox-card" id="pocketAnalyzerCard">
+          <h2>Binding Pocket Analyzer</h2>
+          <p>Dynamically isolate residues in close proximity to the ligand, calculate Euclidean distances, and screen for potential hydrogen bonds.</p>
+          
+          <button id="btnComputePocket" onclick="computeBindingPocket()" class="btn-run" style="background: var(--green); color: var(--bg); font-weight: bold; padding: 12.5px 18px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+            🧬 Compute Binding Pocket Interactivity
+          </button>
+
+          <div id="pocketAnalysisResults" style="display: none; margin-top: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+              <h4 style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted);">
+                Pocket Affinities & Contacts
+              </h4>
+              <span id="pocketResidueCountBadge" style="font-size: 0.72rem; background: rgba(0,232,122,0.1); border: 1px solid rgba(0,232,122,0.3); color: var(--green); padding: 2px 8px; border-radius: 100px; font-family: monospace;">
+                0 Residues
+              </span>
+            </div>
+
+            <!-- Interactive List display container -->
+            <div id="pocketResiduesList" style="max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 4px;">
+              <!-- Rendered dynamically -->
+            </div>
+            
+            <div style="margin-top: 14px; font-size: 0.68rem; color: var(--muted); display: flex; justify-content: space-between; padding: 0 4px;">
+              <span>⚠️ H-Bond threshold set at &lt; 3.5 Å</span>
+              <span>VdW = Van der Waals contact</span>
+            </div>
           </div>
         </div>
       </div>
@@ -973,6 +1082,11 @@ function loadCustomPdb() {
 }
 
 function fetchAndRenderPdb(pdbId) {
+  // Reset Binding Pocket Analyzer state
+  const resultsPanel = document.getElementById('pocketAnalysisResults');
+  if (resultsPanel) resultsPanel.style.display = 'none';
+  isPocketAnalysisActive = false;
+
   const spinner = document.getElementById('viewerSpinner');
   const statusTxt = document.getElementById('viewerStatusText');
   
@@ -1086,6 +1200,168 @@ function toggleLigandHighlight() {
     glViewer.zoomTo();
   }
   
+  glViewer.render();
+}
+
+
+// ===== BINDING POCKET ANALYZER LOGIC =====
+let isPocketAnalysisActive = false;
+
+const getEuclideanDistance = (atom1, atom2) => {
+  return Math.sqrt(
+    Math.pow(atom2.x - atom1.x, 2) +
+    Math.pow(atom2.y - atom1.y, 2) +
+    Math.pow(atom2.z - atom1.z, 2)
+  );
+};
+
+function computeBindingPocket() {
+  if (!glViewer) {
+    console.error("3Dmol viewer instance not initialized.");
+    return;
+  }
+
+  const btn = document.getElementById('btnComputePocket');
+  const resultsPanel = document.getElementById('pocketAnalysisResults');
+  const listContainer = document.getElementById('pocketResiduesList');
+  const badge = document.getElementById('pocketResidueCountBadge');
+
+  btn.disabled = true;
+  btn.textContent = 'Calculating Proximities...';
+  btn.style.opacity = '0.7';
+
+  // Wrap calculation in a setTimeout to prevent freezing the UI thread
+  setTimeout(() => {
+    try {
+      const model = glViewer.getModel();
+      if (!model) {
+        alert("No protein model loaded.");
+        resetPocketBtn();
+        return;
+      }
+
+      // 1. Isolate the Ligand atoms (Excluding structural water molecules)
+      const ligandAtoms = model.selectedAtoms({ hetflag: true }).filter(
+        atom => atom.resn !== 'HOH' && atom.resn !== 'WAT'
+      );
+
+      if (ligandAtoms.length === 0) {
+        alert("No distinct ligand found in this structural file framework.");
+        resetPocketBtn();
+        return;
+      }
+
+      // 2. Isolate Protein atoms
+      const proteinAtoms = model.selectedAtoms({ hetflag: false });
+      const detectedPocket = {};
+
+      // 3. Distance Computation Loop (Threshold: 4.5 Angstroms)
+      proteinAtoms.forEach((pAtom) => {
+        ligandAtoms.forEach((lAtom) => {
+          const distance = getEuclideanDistance(pAtom, lAtom);
+          
+          if (distance <= 4.5) {
+            const uniqueResidueKey = `${pAtom.chain}-${pAtom.resi}`;
+            
+            // Cache only the closest contact distance per residue
+            if (!detectedPocket[uniqueResidueKey] || distance < detectedPocket[uniqueResidueKey].minDist) {
+              detectedPocket[uniqueResidueKey] = {
+                resn: pAtom.resn,
+                resi: pAtom.resi,
+                chain: pAtom.chain,
+                minDist: parseFloat(distance.toFixed(2)),
+                atomObj: pAtom
+              };
+            }
+          }
+        });
+      });
+
+      // 4. Flatten map and sort by closest interacting proximity
+      const sortedPocketList = Object.values(detectedPocket).sort((a, b) => a.minDist - b.minDist);
+      
+      // Update UI list
+      badge.textContent = `${sortedPocketList.length} Residues`;
+      resultsPanel.style.display = 'block';
+      
+      let listHtml = '';
+      sortedPocketList.forEach((res) => {
+        const isHBond = res.minDist < 3.5;
+        const typeClass = isHBond ? 'hbond' : 'vdw';
+        const typeLabel = isHBond ? 'H-Bond' : 'VdW';
+        
+        listHtml += `
+          <div class="pocket-item">
+            <div class="pocket-item-left">
+              <span class="pocket-item-name ${typeClass}">${res.resn} ${res.resi}</span>
+              <span class="pocket-item-chain">Chain ${res.chain}</span>
+            </div>
+            <div class="pocket-item-right">
+              <span class="pocket-item-dist">${res.minDist} Å</span>
+              <div class="pocket-item-badge ${typeClass}">${typeLabel}</div>
+            </div>
+          </div>
+        `;
+      });
+      listContainer.innerHTML = listHtml;
+
+      // 5. Trigger Canvas Viewport Re-rendering
+      update3DPocketViewerStyles(sortedPocketList);
+      isPocketAnalysisActive = true;
+
+    } catch (error) {
+      console.error("Error during structural computation:", error);
+      alert("An error occurred during computational analysis.");
+    } finally {
+      resetPocketBtn();
+    }
+  }, 50);
+
+  function resetPocketBtn() {
+    btn.disabled = false;
+    btn.innerHTML = '🧬 Compute Binding Pocket Interactivity';
+    btn.style.opacity = '1';
+  }
+}
+
+function update3DPocketViewerStyles(residues) {
+  if (!glViewer) return;
+
+  // Clear old state configurations
+  glViewer.clearLabels();
+
+  // Step A: Dim entire background protein structure to emphasize pocket
+  glViewer.setStyle({ hetflag: false }, { cartoon: { color: 'spectrum', opacity: 0.25 } });
+
+  // Step B: Ensure ligand remains prominently visible (e.g., green sticks)
+  glViewer.setStyle({ hetflag: true }, { stick: { colorscheme: 'greenCarbon', radius: 0.3 } });
+
+  // Step C: Apply selective styles and labels onto target residues
+  residues.forEach((res) => {
+    const isHBond = res.minDist < 3.5;
+    const computationalColor = isHBond ? '#FBBF24' : '#F97316'; // Yellow-400 vs orange-500
+
+    // Render sidechains as visible structural sticks
+    glViewer.setStyle(
+      { resi: res.resi, chain: res.chain },
+      { stick: { color: computationalColor, radius: 0.22 } }
+    );
+
+    // Add clean 3D typography labels over alpha carbons
+    glViewer.addLabel(`${res.resn}${res.resi}`, {
+      position: { x: res.atomObj.x, y: res.atomObj.y, z: res.atomObj.z },
+      backgroundColor: '#030712',
+      fontColor: '#FFFFFF',
+      fontSize: 11,
+      backgroundOpacity: 0.9,
+      borderThickness: 1.0,
+      borderColor: computationalColor,
+      padding: 2
+    });
+  });
+
+  // Zoom automatically onto the isolated ligand frame bounds
+  glViewer.zoomTo({ hetflag: true });
   glViewer.render();
 }
 
