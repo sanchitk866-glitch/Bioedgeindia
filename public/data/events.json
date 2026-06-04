@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "host": "IIT Delhi",
+    "title": "National Bio-Design & HealthTech Hackathon",
+    "venue": "IIT Delhi Campus (Offline)",
+    "rewards": "₹50,000 Prize Pool + Incubation Support",
+    "tags": ["Hackathon", "Bioinformatics", "Open to All"],
+    "category": "hackathons",
+    "eventDate": "September 12-14, 2026",
+    "regLink": "https://iitd.ac.in/events",
+    "teamLink": "https://www.linkedin.com/company/bioedge-india/"
+  },
+  {
+    "id": 2,
+    "host": "University of Delhi",
+    "title": "Inter-College Life Sciences Conclave & Poster Presentation",
+    "venue": "South Campus, New Delhi (Offline)",
+    "rewards": "Cash Rewards + Journal Publication",
+    "tags": ["Symposium", "Poster Presentation", "B.Sc. / M.Sc."],
+    "category": "symposiums",
+    "eventDate": "October 05, 2026",
+    "regLink": "https://du.ac.in",
+    "teamLink": "https://www.linkedin.com/company/bioedge-india/"
+  },
+  {
+    "id": 3,
+    "host": "BioEdge India x TechFest",
+    "title": "Pan-India Computational Biology Virtual Challenge",
+    "venue": "100% Virtual (Online)",
+    "rewards": "BioEdge Elite Badges + Industry Mentorship",
+    "tags": ["Coding Challenge", "Python / NumPy", "Free Registration"],
+    "category": "hackathons",
+    "eventDate": "November 01-03, 2026",
+    "regLink": "#",
+    "teamLink": "https://www.linkedin.com/company/bioedge-india/"
+  },
+  {
+    "id": 4,
+    "host": "IISER Pune",
+    "title": "National Structural Biology Workshop & Symposium",
+    "venue": "IISER Pune Campus (Offline)",
+    "rewards": "Hands-on PyMOL Certification",
+    "tags": ["Workshop", "Proteomics", "Limited Seats"],
+    "category": "workshops",
+    "eventDate": "October 18-22, 2026",
+    "regLink": "https://iiserpune.ac.in",
+    "teamLink": "https://www.linkedin.com/company/bioedge-india/"
+  }
+]

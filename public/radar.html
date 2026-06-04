@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YLKVTMBY85"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-YLKVTMBY85');
+</script>
+<title>Bio-Events & Hackathon Radar | BioEdge India</title>
+<meta name="description" content="Discover upcoming national biotechnology fests, bioinformatics hackathons, and scientific symposiums across India.">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #040d0a;
+    --surface: #0a1a14;
+    --surface2: #0f2318;
+    --green: #00e87a;
+    --green2: #00c466;
+    --teal: #00d4aa;
+    --text: #e8f5ef;
+    --muted: #90c5a9;
+    --border: #1a3326;
+    --accent: #7fffcc;
+    --cyan: #06b6d4;
+    --cyan-glow: rgba(6, 182, 212, 0.2);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 9999; opacity: 0.4; }
+
+  /* Floating Orbs Background */
+  #bioedge-antigravity { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+  .bio-orb { position: absolute; border-radius: 50%; opacity: 0; animation: floatUp var(--dur) ease-in var(--delay) infinite; will-change: transform, opacity; }
+  .bio-orb.dot { width: var(--size); height: var(--size); background: var(--color); box-shadow: 0 0 calc(var(--size) * 1.5) var(--color); }
+  .bio-orb.ring { width: var(--size); height: var(--size); background: transparent; border: 1.5px solid var(--color); box-shadow: 0 0 8px var(--color); }
+  @keyframes floatUp { 0% { transform: translateY(0) translateX(0) scale(0.6); opacity: 0; } 10% { opacity: var(--peak-opacity); } 80% { opacity: var(--peak-opacity); } 100% { transform: translateY(var(--rise)) translateX(var(--drift)) scale(1.1); opacity: 0; } }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 16px 48px; display: flex; align-items: center; justify-content: space-between; background: rgba(4,13,10,0.9); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo img { height: 38px; width: auto; }
+  .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.875rem; font-weight: 400; letter-spacing: 0.02em; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--green); }
+  .nav-links a.active { color: var(--green); font-weight: 500; }
+  .nav-cta { background: var(--green) !important; color: var(--bg) !important; padding: 8px 20px; border-radius: 100px; font-weight: 500 !important; transition: all 0.2s !important; }
+  .nav-cta:hover { background: var(--accent) !important; transform: translateY(-1px); }
+  .nav-mobile-btn { display: none; background: none; border: 1px solid var(--border); color: var(--text); padding: 6px 10px; border-radius: 8px; cursor: pointer; font-size: 1rem; }
+
+  /* Page Wrapper */
+  .radar-hero { padding: 120px 48px 40px; position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; }
+  .radar-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; font-weight: bold; color: var(--cyan); background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.25); padding: 5px 14px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px; }
+  .radar-hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(2.2rem, 4vw, 3.5rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 10px; }
+  .radar-hero h1 .highlight { color: var(--cyan); text-shadow: 0 0 20px rgba(6, 182, 212, 0.2); }
+  .radar-sub { color: var(--muted); font-size: 1rem; line-height: 1.6; max-width: 650px; }
+
+  .radar-container { padding: 0 48px 80px; position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; }
+
+  @media (max-width: 900px) {
+    .radar-hero { padding: 90px 20px 30px; }
+    .radar-container { padding: 0 20px 60px; }
+    nav { padding: 14px 20px; }
+    .nav-links { display: none; }
+    .nav-mobile-btn { display: block; }
+    .nav-links.active {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 20px;
+      gap: 16px;
+    }
+  }
+
+  /* Filters & Search Row */
+  .radar-controls-row {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 32px;
+    background: var(--surface);
+    padding: 20px;
+    border-radius: 18px;
+    border: 1px solid var(--border);
+  }
+  @media(min-width: 768px) {
+    .radar-controls-row {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  .radar-search-input {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 11px 18px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    outline: none;
+    transition: all 0.2s;
+    width: 100%;
+  }
+  @media(min-width: 768px) {
+    .radar-search-input {
+      width: 320px;
+    }
+  }
+  .radar-search-input:focus {
+    border-color: var(--cyan);
+    box-shadow: 0 0 12px var(--cyan-glow);
+  }
+
+  .radar-filter-chips {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  @media(min-width: 768px) {
+    .radar-filter-chips {
+      width: auto;
+      justify-content: flex-end;
+    }
+  }
+  .radar-filter-btn {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+  }
+  .radar-filter-btn:hover {
+    border-color: var(--cyan);
+    color: var(--cyan);
+  }
+  .radar-filter-btn.active {
+    background: var(--cyan);
+    color: #fff;
+    border-color: var(--cyan);
+    box-shadow: 0 4px 12px var(--cyan-glow);
+  }
+
+  /* Grid listings */
+  .radar-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  @media(min-width: 768px) {
+    .radar-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .event-radar-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.25s;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
+  .event-radar-card:hover {
+    border-color: rgba(6, 182, 212, 0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(6, 182, 212, 0.15);
+  }
+
+  .event-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .event-card-host {
+    font-size: 0.72rem;
+    font-weight: bold;
+    color: var(--cyan);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .event-card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-top: 4px;
+    transition: color 0.2s;
+    line-height: 1.35;
+  }
+  .event-radar-card:hover .event-card-title {
+    color: var(--accent);
+  }
+
+  .event-card-venue {
+    font-size: 0.76rem;
+    color: var(--muted);
+    margin-top: 14px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 10px 12px;
+    border-radius: 8px;
+    border-left: 3px solid var(--cyan);
+    font-family: monospace;
+  }
+  .event-card-venue span {
+    color: var(--text);
+  }
+
+  .event-card-rewards {
+    font-size: 0.78rem;
+    color: var(--green);
+    font-weight: 600;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .event-card-tags-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 16px;
+  }
+  .event-tag-badge {
+    font-size: 0.68rem;
+    font-family: monospace;
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--muted);
+  }
+
+  .event-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(26, 51, 38, 0.4);
+    font-size: 0.78rem;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .event-card-date {
+    color: var(--muted);
+  }
+  .event-card-date span {
+    font-family: monospace;
+    color: var(--text);
+  }
+  .event-buttons-wrap {
+    display: flex;
+    gap: 8px;
+  }
+  @media(max-width: 480px) {
+    .event-buttons-wrap {
+      width: 100%;
+    }
+  }
+  .event-card-btn {
+    padding: 6px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+    font-size: 0.75rem;
+    text-align: center;
+  }
+  .event-card-btn.team {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .event-card-btn.team:hover {
+    color: var(--text);
+    border-color: var(--muted);
+  }
+  .event-card-btn.register {
+    background: rgba(6, 182, 212, 0.08);
+    border: 1px solid rgba(6, 182, 212, 0.25);
+    color: var(--cyan);
+    font-weight: 600;
+  }
+  .event-card-btn.register:hover {
+    background: var(--cyan);
+    color: #fff;
+    box-shadow: 0 0 12px var(--cyan-glow);
+  }
+
+  .event-empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 48px 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    font-family: monospace;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  /* Footer */
+  footer { border-top: 1px solid var(--border); padding: 36px 48px; display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 1; margin-top: 80px; }
+  .footer-logo { display: flex; align-items: center; gap: 8px; }
+  .footer-logo img { height: 28px; width: auto; }
+  .footer-logo-text { font-family: 'Syne', sans-serif; font-weight: 800; color: var(--green); font-size: 1rem; }
+  .footer-logo-text span { color: var(--muted); }
+  .footer-text { color: var(--muted); font-size: 0.8rem; }
+  @media (max-width: 768px) {
+    footer { flex-direction: column; gap: 12px; text-align: center; padding: 28px 20px; }
+  }
+
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div id="bioedge-antigravity"></div>
+
+<!-- NAVIGATION -->
+<nav>
+  <a href="/" class="nav-logo">
+    <img src="/logo.jpg?v=2" alt="BioEdge India Logo">
+  </a>
+  <ul class="nav-links">
+    <li><a href="/#chatbot">AI Chat</a></li>
+    <li><a href="/#tools">AI Tools</a></li>
+    <li><a href="/#jobs">Internships</a></li>
+    <li><a href="/#career">Career Paths</a></li>
+    <li><a href="/#news">News</a></li>
+    <li><a href="/#founder">Founder</a></li>
+    <li><a href="/sandbox">Sandbox 🧪</a></li>
+    <li><a href="/radar" class="active">Bio-Radar 📡</a></li>
+  </ul>
+  <button class="nav-mobile-btn" onclick="toggleMobileMenu()">☰</button>
+</nav>
+
+<!-- HERO -->
+<header class="radar-hero">
+  <div class="radar-badge">📡 National Bio-Radar Active</div>
+  <h1>Bio-Events & <span class="highlight">Hackathon Radar</span></h1>
+  <p class="radar-sub">Discover upcoming national fests, poster competitions, and cross-college bioinformatics hackathons across premier science institutions in India.</p>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="radar-container">
+  <!-- Controls -->
+  <div class="radar-controls-row">
+    <input
+      type="text"
+      id="radarSearchInput"
+      placeholder="🔍 Search fests, hosts (e.g. IIT, Workshop)..."
+      class="radar-search-input"
+      oninput="handleRadarSearchFilter()"
+    />
+    <div class="radar-filter-chips">
+      <button class="radar-filter-btn active" data-category="all" onclick="setRadarFilter('all', this)">All Events</button>
+      <button class="radar-filter-btn" data-category="hackathons" onclick="setRadarFilter('hackathons', this)">💻 Hackathons</button>
+      <button class="radar-filter-btn" data-category="symposiums" onclick="setRadarFilter('symposiums', this)">🔬 Symposiums</button>
+      <button class="radar-filter-btn" data-category="workshops" onclick="setRadarFilter('workshops', this)">🛠️ Workshops</button>
+    </div>
+  </div>
+
+  <!-- Listings Grid -->
+  <div class="radar-grid" id="radarContainer">
+    <div class="event-empty-state">Loading latest biotechnology events...</div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-logo">
+    <img src="/logo.jpg?v=2" alt="BioEdge India">
+  </div>
+  <div class="footer-text">Built with ❤️ by Sanchit Kumar · From Base Pairs to Career Paths</div>
+  <div class="footer-text">© 2026 BioEdge India · Free for Students</div>
+</footer>
+
+<script>
+// ===== MOBILE MENU TOGGLE =====
+function toggleMobileMenu() {
+  const links = document.querySelector('.nav-links');
+  links.classList.toggle('active');
+}
+
+// ===== ANTI-GRAVITY BACKGROUND =====
+(function(){
+  const c = document.getElementById('bioedge-antigravity');
+  if(!c) return;
+  const COLORS = ['rgba(6,182,212,VAR)', 'rgba(0,212,170,VAR)', 'rgba(123,77,255,VAR)', 'rgba(0,180,255,VAR)', 'rgba(0,232,122,VAR)'];
+  function rb(a,b){ return a+Math.random()*(b-a); }
+  function makeOrb(){
+    const el = document.createElement('div');
+    const isR = Math.random() < 0.3;
+    el.className = 'bio-orb ' + (isR ? 'ring' : 'dot');
+    const sz = rb(isR ? 8 : 3, isR ? 24 : 9);
+    const po = rb(0.2, isR ? 0.5 : 0.7);
+    const col = COLORS[Math.floor(Math.random() * COLORS.length)].replace('VAR', po.toFixed(2));
+    el.style.cssText = `--size:${sz}px;--color:${col};--dur:${rb(7,20)}s;--delay:${rb(0,16)}s;--rise:-${rb(55,120)}vh;--drift:${Math.random()<0.5?'':'- '}${rb(5,38)}px;--peak-opacity:${po};left:${rb(0,100)}%;top:${rb(60,110)}%;`;
+    return el;
+  }
+  for(let i=0; i<40; i++) c.appendChild(makeOrb());
+})();
+
+// ===== RADAR DYNAMIC ENGINE =====
+let radarEvents = [];
+let activeRadarFilter = 'all';
+let radarSearchQuery = '';
+
+async function loadRadarEvents() {
+  const container = document.getElementById('radarContainer');
+  try {
+    const res = await fetch('/data/events.json');
+    if (!res.ok) throw new Error('Failed to fetch events catalog.');
+    radarEvents = await res.json();
+    renderRadarEvents();
+  } catch (err) {
+    console.error("Error loading events radar:", err);
+    if (container) {
+      container.innerHTML = `
+        <div class="event-empty-state">
+          ❌ Failed to load bio-events. Please refresh or try again later.
+        </div>
+      `;
+    }
+  }
+}
+
+function renderRadarEvents() {
+  const container = document.getElementById('radarContainer');
+  if (!container) return;
+
+  const filtered = radarEvents.filter(event => {
+    const matchesFilter = activeRadarFilter === 'all' || event.category === activeRadarFilter;
+    const matchesSearch = event.host.toLowerCase().includes(radarSearchQuery.toLowerCase()) ||
+                          event.title.toLowerCase().includes(radarSearchQuery.toLowerCase()) ||
+                          event.tags.some(tag => tag.toLowerCase().includes(radarSearchQuery.toLowerCase()));
+    return matchesFilter && matchesSearch;
+  });
+
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div class="event-empty-state">
+        📡 No upcoming events matching the selected criteria.
+      </div>
+    `;
+    return;
+  }
+
+  let html = '';
+  filtered.forEach(event => {
+    const tagsHtml = event.tags.map(tag => `<span class="event-tag-badge">${tag}</span>`).join('');
+    
+    html += `
+      <div class="event-radar-card">
+        <div>
+          <div class="event-card-header">
+            <div style="display: flex; flex-direction: column;">
+              <span class="event-card-host">${event.host}</span>
+              <h2 class="event-card-title">${event.title}</h2>
+            </div>
+          </div>
+
+          <p class="event-card-venue">
+            📍 Venue: <span>${event.venue}</span>
+          </p>
+          
+          <p class="event-card-rewards">
+            🏆 ${event.rewards}
+          </p>
+
+          <div class="event-card-tags-row">
+            ${tagsHtml}
+          </div>
+        </div>
+
+        <div class="event-card-footer">
+          <span class="event-card-date">
+            📅 Date: <span>${event.eventDate}</span>
+          </span>
+          
+          <div class="event-buttons-wrap">
+            <a 
+              href="${event.teamLink}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="event-card-btn team"
+            >
+              Find Teammates 🤝
+            </a>
+            <a 
+              href="${event.regLink}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="event-card-btn register"
+            >
+              Register ↗
+            </a>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+}
+
+function setRadarFilter(category, btn) {
+  activeRadarFilter = category;
+  document.querySelectorAll('.radar-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderRadarEvents();
+}
+
+function handleRadarSearchFilter() {
+  const searchInput = document.getElementById('radarSearchInput');
+  if (searchInput) {
+    radarSearchQuery = searchInput.value;
+  }
+  renderRadarEvents();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadRadarEvents();
+});
+</script>
+</body>
+</html>
