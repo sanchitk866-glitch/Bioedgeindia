@@ -68,7 +68,7 @@
   /* HERO */
   .hero { min-height: 100vh; display: flex; align-items: center; padding: 120px 48px 80px; position: relative; overflow: hidden; }
   .hero-content { flex: 1; max-width: 620px; position: relative; z-index: 2; }
-  .hero-visual { flex: 0 0 380px; display: flex; justify-content: flex-end; align-items: center; position: relative; z-index: 2; }
+  .hero-visual { flex: 0 0 450px; display: flex; justify-content: flex-end; align-items: center; position: relative; z-index: 2; width: 100%; max-width: 450px; }
   .hero-logo-wrap { position: relative; }
   .hero-logo-wrap img { width: 320px; height: auto; filter: drop-shadow(0 0 40px rgba(0,232,122,0.3)); animation: logoFloat 4s ease-in-out infinite; }
   @keyframes logoFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
@@ -445,8 +445,8 @@
     nav { padding: 14px 20px; }
     .nav-links { display: none; }
     .nav-mobile-btn { display: block; }
-    .hero { padding: 100px 20px 60px; flex-direction: column; }
-    .hero-visual { display: none; }
+    .hero { padding: 100px 20px 60px; flex-direction: column; gap: 40px; }
+    .hero-visual { display: flex; flex: 1; width: 100%; justify-content: center; }
     section { padding: 60px 20px; }
     .divider { margin: 0 20px; }
     .tools-grid { grid-template-columns: 1fr; }
@@ -472,6 +472,31 @@
   
   /* NEWSLETTER SUCCESS GLASS */
   .newsletter-success { color: var(--green); font-weight: 500; background: rgba(0,232,122,0.05); border: 1px solid rgba(0,232,122,0.2); padding: 20px; border-radius: 14px; margin-top: 14px; text-shadow: 0 0 8px rgba(0,232,122,0.3); animation: fadeUp 0.4s ease forwards; }
+
+  /* CAREER & TOOLS badges and bookmarks */
+  .career-meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; padding-top: 14px; border-top: 1px dashed var(--border); }
+  .career-badge { font-size: 0.68rem; font-family: 'DM Sans', sans-serif; font-weight: 500; padding: 4px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); color: var(--muted); display: flex; align-items: center; gap: 4px; }
+  .career-badge.exam { border-color: rgba(0, 232, 122, 0.2); color: var(--green); background: rgba(0, 232, 122, 0.03); }
+  .career-badge.skill { border-color: rgba(0, 212, 170, 0.2); color: var(--teal); background: rgba(0, 212, 170, 0.03); }
+  .career-badge.time { border-color: rgba(127, 255, 204, 0.2); color: var(--accent); background: rgba(127, 255, 204, 0.03); }
+
+  .bookmark-btn { position: absolute; top: 14px; right: 14px; background: rgba(4, 13, 10, 0.7); border: 1px solid var(--border); color: var(--muted); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; z-index: 5; font-size: 0.85rem; padding: 0; outline: none; }
+  .bookmark-btn:hover { background: var(--surface2); color: var(--green); border-color: var(--green); transform: scale(1.1); }
+  .bookmark-btn.active { color: var(--green); border-color: var(--green); background: rgba(0, 232, 122, 0.15); text-shadow: 0 0 8px var(--green); }
+
+  .tool-access-badge { display: inline-block; padding: 3px 10px; border-radius: 100px; background: rgba(127, 255, 204, 0.06); color: var(--accent); font-size: 0.72rem; font-weight: 500; border: 1px solid rgba(127, 255, 204, 0.2); text-transform: uppercase; letter-spacing: 0.02em; }
+  .tool-card .card-meta-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; }
+  
+  .opportunity-digest-bar { display: flex; flex-direction: column; gap: 20px; background: linear-gradient(135deg, var(--surface2), var(--surface)); border: 1px solid var(--border); border-radius: 18px; padding: 28px 36px; margin-bottom: 32px; width: 100%; }
+  @media (min-width: 768px) {
+    .opportunity-digest-bar { flex-direction: row; align-items: center; gap: 32px; }
+  }
+
+  .digest-success-msg { color: var(--green); font-size: 0.85rem; font-weight: 500; background: rgba(0, 232, 122, 0.05); border: 1px solid rgba(0, 232, 122, 0.2); padding: 10px 20px; border-radius: 100px; text-shadow: 0 0 8px rgba(0, 232, 122, 0.3); animation: fadeUp 0.4s ease forwards; }
+
+  /* Small adjustment to tool-card to allow absolute bookmark placement */
+  .tool-card { position: relative; display: flex; flex-direction: column; justify-content: space-between; height: 100%; }
+  .essential-tools-section { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 32px; }
 
 </style>
 </head>
@@ -504,34 +529,20 @@
   <div class="hero-content">
     <div class="hero-badge"><div class="badge-dot"></div>India's First AI Platform for Biology Students</div>
     <h1>Where <span class="highlight">Biology</span><br>Meets the Future</h1>
-    <p class="hero-sub">AI tools, internships, biotech news, and career roadmaps — all in one free platform. Built for B.Sc., M.Sc. &amp; Biotech students across India.</p>
+    <p class="hero-sub">An independent platform built by Indian life science students, for Indian life science students. Get instant AI research support, design PCR protocols, and discover live national lab vacancies.</p>
     <div class="hero-actions">
       <a href="#chatbot" class="btn-primary">Ask BioEdge AI 🧬</a>
       <a href="/sandbox" class="btn-secondary">Interactive Sandbox 🧪</a>
     </div>
     <div class="hero-stats">
-      <div><div class="stat-num">30+</div><div class="stat-label">AI Tools</div></div>
-      <div><div class="stat-num">20+</div><div class="stat-label">Internships</div></div>
+      <div><div class="stat-num">32</div><div class="stat-label">AI Tools</div></div>
+      <div><div class="stat-num">24</div><div class="stat-label">Vacancies</div></div>
       <div><div class="stat-num">10</div><div class="stat-label">Career Paths</div></div>
       <div><div class="stat-num">Free</div><div class="stat-label">Always</div></div>
     </div>
   </div>
-  <div class="hero-visual">
-    <div class="hero-logo-wrap">
-      <img src="/logo.jpg?v=2" alt="BioEdge India Logo">
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- AI CHATBOT -->
-<section id="chatbot">
-  <div class="section-label">🤖 AI Assistant</div>
-  <div class="section-title">Ask BioEdge AI</div>
-  <p class="section-sub">Your personal biology AI — ask about concepts, exams, research papers, career advice, or anything life sciences.</p>
-  <div class="chatbot-wrap">
-    <div class="chat-box">
+  <div class="hero-visual" id="chatbot">
+    <div class="chat-box" style="width: 100%; border: 1px solid var(--border); box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 30px rgba(0,232,122,0.05);">
       <div class="chat-header">
         <div class="chat-avatar">🧬</div>
         <div>
@@ -546,7 +557,6 @@
         <span class="suggestion-chip" tabindex="0" role="button" onclick="sendSuggestion(this)" onkeypress="if(event.key==='Enter'||event.key===' ') sendSuggestion(this)">Explain CRISPR-Cas9 simply</span>
         <span class="suggestion-chip" tabindex="0" role="button" onclick="sendSuggestion(this)" onkeypress="if(event.key==='Enter'||event.key===' ') sendSuggestion(this)">IIT JAM Biotech syllabus</span>
         <span class="suggestion-chip" tabindex="0" role="button" onclick="sendSuggestion(this)" onkeypress="if(event.key==='Enter'||event.key===' ') sendSuggestion(this)">Best career in genomics?</span>
-        <span class="suggestion-chip" tabindex="0" role="button" onclick="sendSuggestion(this)" onkeypress="if(event.key==='Enter'||event.key===' ') sendSuggestion(this)">How to prepare for CSIR NET?</span>
       </div>
       <div class="chat-input-row">
         <input class="chat-input" id="chatInput" type="text" placeholder="Ask anything about biology..." onkeypress="if(event.key==='Enter') sendMessage()">
@@ -558,57 +568,63 @@
 
 <div class="divider"></div>
 
+<!-- MY SAVED DASHBOARD -->
+<section id="saved-dashboard" style="display: none; background: var(--surface2); padding: 60px 48px;">
+  <div class="section-label">⭐ My Workspace</div>
+  <h2 class="section-title" style="margin-bottom: 8px;">My Saved Dashboard</h2>
+  <p class="section-sub" style="margin-bottom: 32px;">Quick access to your bookmarked tools and active vacancies. Saved in your browser.</p>
+  
+  <div class="dashboard-grids" style="display: flex; flex-direction: column; gap: 32px;">
+    <div id="savedToolsContainer" style="display: none;">
+      <h3 style="font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 16px; color: var(--green); display: flex; align-items: center; gap: 8px;">
+        <span>🧰</span> Saved Tools
+      </h3>
+      <div class="tools-grid" id="savedToolsGrid"></div>
+    </div>
+    
+    <div id="savedJobsContainer" style="display: none;">
+      <h3 style="font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 16px; color: var(--teal); display: flex; align-items: center; gap: 8px;">
+        <span>💼</span> Saved Opportunities
+      </h3>
+      <div class="jobs-grid" id="savedJobsGrid"></div>
+    </div>
+  </div>
+</section>
+
+<div class="saved-divider divider" style="display: none;"></div>
+
+<div class="divider"></div>
+
 <!-- AI TOOLS -->
 <section id="tools">
   <div class="section-label">🛠 AI Tools Directory</div>
-  <div class="section-title">30+ AI Tools for<br>Biology Students</div>
+  <h2 class="section-title">32 Curated Tools for<br>Biology Students</h2>
   <p class="section-sub">Handpicked tools to supercharge your studies, research, and career in life sciences. All tested and curated for Indian students.</p>
   
   <div class="tools-filter-bar">
-    <input type="text" id="toolSearch" placeholder="Search 30+ AI tools by name, description, or tag..." oninput="filterTools()">
+    <input type="text" id="toolSearch" placeholder="Search 32 tools by name, description, or tag..." oninput="filterTools()">
     <div class="filter-chips" id="toolChips">
       <span class="filter-chip active" tabindex="0" role="button" onclick="filterCategory('all', this)" onkeypress="if(event.key==='Enter'||event.key===' ') filterCategory('all', this)">All Tools</span>
-      <span class="filter-chip" tabindex="0" role="button" onclick="filterCategory('Bioinformatics', this)" onkeypress="if(event.key==='Enter'||event.key===' ') filterCategory('Bioinformatics', this)">Bioinformatics</span>
-      <span class="filter-chip" tabindex="0" role="button" onclick="filterCategory('Structural Biology', this)" onkeypress="if(event.key==='Enter'||event.key===' ') filterCategory('Structural Biology', this)">Structural Biology</span>
-      <span class="filter-chip" tabindex="0" role="button" onclick="filterCategory('Research', this)" onkeypress="if(event.key==='Enter'||event.key===' ') filterCategory('Research', this)">Research</span>
-      <span class="filter-chip" tabindex="0" role="button" onclick="filterCategory('Study Aid', this)" onkeypress="if(event.key==='Enter'||event.key===' ') filterCategory('Study Aid', this)">Study Aid</span>
-      <span class="filter-chip" tabindex="0" role="button" onclick="filterCategory('Genomics', this)" onkeypress="if(event.key==='Enter'||event.key===' ') filterCategory('Genomics', this)">Genomics</span>
-      <span class="filter-chip" tabindex="0" role="button" onclick="filterCategory('Systems Biology', this)" onkeypress="if(event.key==='Enter'||event.key===' ') filterCategory('Systems Biology', this)">Systems Biology</span>
+      <span class="filter-chip" tabindex="0" role="button" onclick="filterCategory('exam-prep', this)" onkeypress="if(event.key==='Enter'||event.key===' ') filterCategory('exam-prep', this)">📖 IIT JAM / NET Prep</span>
+      <span class="filter-chip" tabindex="0" role="button" onclick="filterCategory('research', this)" onkeypress="if(event.key==='Enter'||event.key===' ') filterCategory('research', this)">🔬 Literature & Research</span>
+      <span class="filter-chip" tabindex="0" role="button" onclick="filterCategory('lab-work', this)" onkeypress="if(event.key==='Enter'||event.key===' ') filterCategory('lab-work', this)">🧫 Wet-Lab Helpers</span>
+      <span class="filter-chip" tabindex="0" role="button" onclick="filterCategory('bioinformatics', this)" onkeypress="if(event.key==='Enter'||event.key===' ') filterCategory('bioinformatics', this)">💻 Computational Biology</span>
     </div>
   </div>
-  <div class="tools-grid">
-    <a href="https://alphafold.ebi.ac.uk" target="_blank" class="tool-card"><div class="tool-icon">🧬</div><div class="tool-name">AlphaFold 3</div><div class="tool-desc">Predict protein structures with atomic accuracy. Revolutionary for structural biology and drug discovery research.</div><span class="tool-tag">Structural Biology</span></a>
-    <a href="https://consensus.app" target="_blank" class="tool-card"><div class="tool-icon">📄</div><div class="tool-name">Consensus AI</div><div class="tool-desc">Ask questions and get direct answers from peer-reviewed papers. Perfect for literature reviews and CSIR prep.</div><span class="tool-tag">Research</span></a>
-    <a href="https://biorender.com" target="_blank" class="tool-card"><div class="tool-icon">🎨</div><div class="tool-name">BioRender</div><div class="tool-desc">Create stunning scientific diagrams, figures and illustrations for presentations and research papers.</div><span class="tool-tag">Visualization</span></a>
-    <a href="https://benchling.com" target="_blank" class="tool-card"><div class="tool-icon">🧪</div><div class="tool-name">Benchling</div><div class="tool-desc">Free lab notebook and DNA sequence analysis tool used by top biotech companies. Essential for molecular bio students.</div><span class="tool-tag">Lab Tools</span></a>
-    <a href="https://elicit.com" target="_blank" class="tool-card"><div class="tool-icon">🔍</div><div class="tool-name">Elicit</div><div class="tool-desc">AI research assistant extracting key findings from thousands of papers instantly. Great for systematic reviews.</div><span class="tool-tag">Research</span></a>
-    <a href="https://notebooklm.google.com" target="_blank" class="tool-card"><div class="tool-icon">📓</div><div class="tool-name">NotebookLM</div><div class="tool-desc">Upload your biology textbooks and PDFs — ask questions, get summaries, generate study guides. Completely free.</div><span class="tool-tag">Study Aid</span></a>
-    <a href="https://scite.ai" target="_blank" class="tool-card"><div class="tool-icon">🔭</div><div class="tool-name">Scite.ai</div><div class="tool-desc">Find out if research has been supported or contradicted by later studies. Essential for critical reading.</div><span class="tool-tag">Literature</span></a>
-    <a href="https://pubmed.ncbi.nlm.nih.gov" target="_blank" class="tool-card"><div class="tool-icon">🌐</div><div class="tool-name">PubMed AI Search</div><div class="tool-desc">Semantic AI-powered search on biomedical literature. Find the most relevant papers for your topics and exams.</div><span class="tool-tag">Bioinformatics</span></a>
-    <a href="https://autodock.scripps.edu" target="_blank" class="tool-card"><div class="tool-icon">💊</div><div class="tool-name">AutoDock Vina</div><div class="tool-desc">Molecular docking simulation tool. Ideal for bioinformatics projects and IIT JAM, GATE preparation.</div><span class="tool-tag">Bioinformatics</span></a>
-    <a href="https://www.genome.ucsc.edu" target="_blank" class="tool-card"><div class="tool-icon">🧫</div><div class="tool-name">UCSC Genome Browser</div><div class="tool-desc">Visualise and analyse complete human and model organism genomes. A must for genomics and bioinformatics students.</div><span class="tool-tag">Genomics</span></a>
-    <a href="https://blast.ncbi.nlm.nih.gov" target="_blank" class="tool-card"><div class="tool-icon">🔬</div><div class="tool-name">NCBI BLAST</div><div class="tool-desc">Find sequences similar to yours across all known organisms. Fundamental tool for molecular biology research.</div><span class="tool-tag">Bioinformatics</span></a>
-    <a href="https://www.rcsb.org" target="_blank" class="tool-card"><div class="tool-icon">🏗️</div><div class="tool-name">RCSB Protein Data Bank</div><div class="tool-desc">Access 200,000+ experimentally determined protein structures. Essential for structural biology and drug design.</div><span class="tool-tag">Structural Biology</span></a>
-    <a href="https://www.phylo.org" target="_blank" class="tool-card"><div class="tool-icon">🌳</div><div class="tool-name">CIPRES Portal</div><div class="tool-desc">Build phylogenetic trees using high-performance computing. Perfect for evolutionary biology projects.</div><span class="tool-tag">Evolutionary Biology</span></a>
-    <a href="https://galaxy.org" target="_blank" class="tool-card"><div class="tool-icon">🌌</div><div class="tool-name">Galaxy Project</div><div class="tool-desc">Web-based platform for bioinformatics analysis — RNA-seq, ChIP-seq, metagenomics. No coding required.</div><span class="tool-tag">Bioinformatics</span></a>
-    <a href="https://cytoscape.org" target="_blank" class="tool-card"><div class="tool-icon">🕸️</div><div class="tool-name">Cytoscape</div><div class="tool-desc">Visualise complex biological networks and pathways. Widely used in systems biology and network analysis.</div><span class="tool-tag">Systems Biology</span></a>
-    <a href="https://www.ebi.ac.uk/tools/msa/clustalo/" target="_blank" class="tool-card"><div class="tool-icon">🔗</div><div class="tool-name">ClustalOmega</div><div class="tool-desc">Multiple sequence alignment tool from EMBL-EBI. Standard method for comparing protein and nucleotide sequences.</div><span class="tool-tag">Bioinformatics</span></a>
-    <a href="https://www.addgene.org" target="_blank" class="tool-card"><div class="tool-icon">🧷</div><div class="tool-name">Addgene</div><div class="tool-desc">Repository of plasmids and protocols for molecular biology. Also has excellent learning resources on cloning techniques.</div><span class="tool-tag">Molecular Biology</span></a>
-    <a href="https://phet.colorado.edu/en/simulations/filter?subjects=biology" target="_blank" class="tool-card"><div class="tool-icon">⚗️</div><div class="tool-name">PhET Bio Simulations</div><div class="tool-desc">Free interactive biology simulations from University of Colorado. Great for visualising genetic and cellular processes.</div><span class="tool-tag">Study Aid</span></a>
-    <a href="https://www.ncbi.nlm.nih.gov/gene/" target="_blank" class="tool-card"><div class="tool-icon">🧬</div><div class="tool-name">NCBI Gene Database</div><div class="tool-desc">Search gene information, function, expression data and linked publications for any organism.</div><span class="tool-tag">Genomics</span></a>
-    <a href="https://string-db.org" target="_blank" class="tool-card"><div class="tool-icon">🔁</div><div class="tool-name">STRING DB</div><div class="tool-desc">Protein-protein interaction database and network visualiser. Key tool for systems biology and pathway analysis.</div><span class="tool-tag">Systems Biology</span></a>
-    <a href="https://www.uniprot.org" target="_blank" class="tool-card"><div class="tool-icon">📚</div><div class="tool-name">UniProt</div><div class="tool-desc">Comprehensive protein sequence and functional information database. Standard reference for proteomics research.</div><span class="tool-tag">Proteomics</span></a>
-    <a href="https://www.kegg.jp" target="_blank" class="tool-card"><div class="tool-icon">🗺️</div><div class="tool-name">KEGG Pathways</div><div class="tool-desc">Metabolic and signaling pathway database. Essential for biochemistry, pharmacology and systems biology studies.</div><span class="tool-tag">Biochemistry</span></a>
-    <a href="https://www.geneontology.org" target="_blank" class="tool-card"><div class="tool-icon">🌿</div><div class="tool-name">Gene Ontology</div><div class="tool-desc">Standardised vocabulary of gene and protein functions across species. Fundamental for bioinformatics annotation work.</div><span class="tool-tag">Bioinformatics</span></a>
-    <a href="https://tools.thermofisher.com/content/sfs/brochures/oligo-perfect-oligo-designer.htm" target="_blank" class="tool-card"><div class="tool-icon">🎯</div><div class="tool-name">Primer3Plus</div><div class="tool-desc">Design PCR primers for any gene sequence. Widely used in molecular biology labs and research projects worldwide.</div><span class="tool-tag">Molecular Biology</span></a>
-    <a href="https://www.coursera.org/learn/bioinformatics" target="_blank" class="tool-card"><div class="tool-icon">📖</div><div class="tool-name">Bioinformatics (Coursera)</div><div class="tool-desc">Free audit of UCSD's bioinformatics specialisation. Excellent for learning computational biology from scratch.</div><span class="tool-tag">Learning</span></a>
-    <a href="https://biopython.org" target="_blank" class="tool-card"><div class="tool-icon">🐍</div><div class="tool-name">Biopython</div><div class="tool-desc">Python library for biological computation. Learn to write scripts for sequence analysis, file parsing and BLAST searches.</div><span class="tool-tag">Programming</span></a>
-    <a href="https://www.r-project.org" target="_blank" class="tool-card"><div class="tool-icon">📊</div><div class="tool-name">R for Biology</div><div class="tool-desc">Statistical computing language essential for analysing biological data, gene expression and population genetics.</div><span class="tool-tag">Data Analysis</span></a>
-    <a href="https://clinicaltrials.gov" target="_blank" class="tool-card"><div class="tool-icon">🏥</div><div class="tool-name">ClinicalTrials.gov</div><div class="tool-desc">Search global clinical trials data. Great for understanding translational research and pharmaceutical development.</div><span class="tool-tag">Clinical Research</span></a>
-    <a href="https://www.drugbank.ca" target="_blank" class="tool-card"><div class="tool-icon">💉</div><div class="tool-name">DrugBank</div><div class="tool-desc">Comprehensive drug and drug-target database. Essential for pharmacology and drug discovery students.</div><span class="tool-tag">Pharmacology</span></a>
-    <a href="https://www.mirbase.org" target="_blank" class="tool-card"><div class="tool-icon">🧵</div><div class="tool-name">miRBase</div><div class="tool-desc">microRNA sequence and annotation database. Key resource for gene regulation, epigenetics and RNA biology research.</div><span class="tool-tag">Epigenetics</span></a>
-    <a href="https://imagej.nih.gov/ij/" target="_blank" class="tool-card"><div class="tool-icon">🖼️</div><div class="tool-name">ImageJ / FIJI</div><div class="tool-desc">Free image analysis software for microscopy data. Standard tool in cell biology, histology and fluorescence imaging.</div><span class="tool-tag">Cell Biology</span></a>
-    <a href="https://www.flowjo.com" target="_blank" class="tool-card"><div class="tool-icon">🌊</div><div class="tool-name">FlowJo (Free Trial)</div><div class="tool-desc">Flow cytometry data analysis platform. Learn to analyse immune cell populations and cell cycle data.</div><span class="tool-tag">Immunology</span></a>
+
+  <!-- Pinned row for Beginners' choices -->
+  <div class="essential-tools-section" id="essentialToolsSection">
+    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+      <span style="font-size: 1.15rem; color: var(--green);">⭐</span>
+      <h3 style="font-family: 'Syne', sans-serif; font-size: 1.15rem; font-weight: 700;">Top 5 Essential Tools for Beginners</h3>
+    </div>
+    <div class="tools-grid" id="essentialToolsGrid">
+      <!-- Pinned tools rendered dynamically -->
+    </div>
+  </div>
+
+  <div class="tools-grid" id="toolsGrid">
+    <!-- Dynamic tools rendered here -->
   </div>
 </section>
 
@@ -620,6 +636,19 @@
   <div class="section-title">National Lab Project Portal</div>
   <p class="section-sub">Aggregated JRF, Project Associate, and Dissertation vacancies across premium Indian institutes (CSIR, ICMR, IITs, IISc, BIRAC, etc.). Updated dynamically.</p>
   
+  <!-- Weekly Opportunity Digest Email Capture -->
+  <div class="opportunity-digest-bar">
+    <div style="flex: 1; max-width: 600px;">
+      <h3 style="font-family: 'Syne', sans-serif; font-size: 1.15rem; font-weight: 700; color: var(--green); margin-bottom: 6px;">📩 Weekly Opportunity Digest</h3>
+      <p style="color: var(--muted); font-size: 0.85rem; line-height: 1.6;">Never miss an obscure national lab PDF update. Get a hand-curated digest of JRF and dissertation openings closing this week, sent straight to your inbox.</p>
+    </div>
+    <form style="display: flex; gap: 10px; width: 100%; max-width: 400px; margin-top: 10px;" onsubmit="handleDigestSubscribe(event)">
+      <input type="email" id="digestEmail" placeholder="your.name@academic.in" required style="flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: 100px; padding: 10px 18px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.85rem; outline: none; transition: border-color 0.2s;">
+      <button type="submit" style="background: var(--green); color: var(--bg); border: none; padding: 10px 20px; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-weight: 500; cursor: pointer; white-space: nowrap; font-size: 0.85rem; transition: all 0.2s;">Get Digest</button>
+    </form>
+    <div id="digestSuccess" style="display: none; color: var(--green); font-size: 0.85rem; font-weight: 500; background: rgba(0, 232, 122, 0.05); border: 1px solid rgba(0, 232, 122, 0.2); padding: 10px 20px; border-radius: 100px; text-shadow: 0 0 8px rgba(0, 232, 122, 0.3);">✓ You're in! Check your inbox this Sunday.</div>
+  </div>
+
   <!-- Search & Filter Controls -->
   <div class="jobs-controls-row">
     <input
@@ -649,19 +678,169 @@
 <!-- CAREER PATHS -->
 <section id="career">
   <div class="section-label">🗺 Career Guidance</div>
-  <div class="section-title">10 Career Paths<br>After B.Sc. Biology</div>
+  <h2 class="section-title">10 Career Paths<br>After B.Sc. Biology</h2>
   <p class="section-sub">Clear roadmaps with key exams, skills, and action steps — tailored for Indian biology students from B.Sc. to their dream career.</p>
   <div class="career-grid">
-    <div class="career-card"><div class="career-num">01</div><div class="career-title">Research Scientist (Academia)</div><div class="career-desc">Pursue a PhD at IITs/IISc and contribute to cutting-edge biological research. The classic scientist path.</div><div class="career-steps"><div class="step"><div class="step-dot"></div>Clear CSIR-NET or GATE (Life Sciences)</div><div class="step"><div class="step-dot"></div>Apply to IIT/IISc/IISER PhD programmes</div><div class="step"><div class="step-dot"></div>Publish research papers, build lab skills</div><div class="step"><div class="step-dot"></div>Postdoc → Faculty / Senior Scientist</div></div></div>
-    <div class="career-card"><div class="career-num">02</div><div class="career-title">Bioinformatics Specialist</div><div class="career-desc">Merge biology with computing. Analyse genomes, design pipelines, and shape the future of personalised medicine.</div><div class="career-steps"><div class="step"><div class="step-dot"></div>Learn Python, R, Linux basics</div><div class="step"><div class="step-dot"></div>Clear GATE (BT) or IIT JAM Biotech</div><div class="step"><div class="step-dot"></div>Work with BLAST, Galaxy, AlphaFold</div><div class="step"><div class="step-dot"></div>M.Sc. Bioinformatics → Industry / Research</div></div></div>
-    <div class="career-card"><div class="career-num">03</div><div class="career-title">IIT JAM → M.Sc. Path</div><div class="career-desc">Gateway to India's best science institutions. Opens doors to PhD, research roles and top jobs.</div><div class="career-steps"><div class="step"><div class="step-dot"></div>Prepare Biological Sciences / Biotech paper</div><div class="step"><div class="step-dot"></div>Master Cell Biology, Genetics, Biochemistry</div><div class="step"><div class="step-dot"></div>Mock tests + PYQ practice</div><div class="step"><div class="step-dot"></div>IIT/NIT M.Sc. → PhD or Industry</div></div></div>
-    <div class="career-card"><div class="career-num">04</div><div class="career-title">Pharmaceutical / Biotech Industry</div><div class="career-desc">Join India's ₹4 lakh crore pharma industry as a QC analyst, formulation scientist or regulatory expert.</div><div class="career-steps"><div class="step"><div class="step-dot"></div>M.Sc. Biochemistry / Microbiology / Biotech</div><div class="step"><div class="step-dot"></div>Learn GMP, GLP, regulatory affairs</div><div class="step"><div class="step-dot"></div>Intern at Biocon, Cipla, Sun Pharma</div><div class="step"><div class="step-dot"></div>QC/QA Analyst → Senior Scientist</div></div></div>
-    <div class="career-card"><div class="career-num">05</div><div class="career-title">CSIR-NET → JRF / Lectureship</div><div class="career-desc">Qualify India's most prestigious science exam. Get funded PhD research or college teaching positions.</div><div class="career-steps"><div class="step"><div class="step-dot"></div>Target December / June CSIR-NET exam</div><div class="step"><div class="step-dot"></div>Study Life Sciences systematically</div><div class="step"><div class="step-dot"></div>JRF: ₹37k/month fellowship for PhD</div><div class="step"><div class="step-dot"></div>LS: Assistant Professor in colleges</div></div></div>
-    <div class="career-card"><div class="career-num">06</div><div class="career-title">Clinical Research Associate</div><div class="career-desc">Manage clinical trials and drug development pipelines. A rapidly growing career in India's CRO sector.</div><div class="career-steps"><div class="step"><div class="step-dot"></div>M.Sc. or PG Diploma in Clinical Research</div><div class="step"><div class="step-dot"></div>Learn ICH-GCP guidelines</div><div class="step"><div class="step-dot"></div>Intern at CROs like Covance, IQVIA</div><div class="step"><div class="step-dot"></div>CRA → Clinical Project Manager</div></div></div>
-    <div class="career-card"><div class="career-num">07</div><div class="career-title">Healthcare & Medical Writing</div><div class="career-desc">Translate complex science into accessible content for doctors, patients and regulatory bodies.</div><div class="career-steps"><div class="step"><div class="step-dot"></div>Build strong scientific writing skills</div><div class="step"><div class="step-dot"></div>Learn regulatory writing formats (CTD, SOP)</div><div class="step"><div class="step-dot"></div>Freelance or join pharma comms teams</div><div class="step"><div class="step-dot"></div>Medical Writer → Content Lead</div></div></div>
-    <div class="career-card"><div class="career-num">08</div><div class="career-title">Environmental Science & Policy</div><div class="career-desc">Work on biodiversity, conservation, pollution control and climate change with NGOs or government bodies.</div><div class="career-steps"><div class="step"><div class="step-dot"></div>M.Sc. Environmental Science / Ecology</div><div class="step"><div class="step-dot"></div>Clear UPSC / State PSC (Environment track)</div><div class="step"><div class="step-dot"></div>Work with MOEF, WWF, WRI India</div><div class="step"><div class="step-dot"></div>Environment Officer → Policy Advisor</div></div></div>
-    <div class="career-card"><div class="career-num">09</div><div class="career-title">Biotech Entrepreneurship</div><div class="career-desc">Build startups solving healthcare, agriculture and diagnostics problems using biology and AI. The bold path.</div><div class="career-steps"><div class="step"><div class="step-dot"></div>Identify a real problem in Indian healthcare/agri</div><div class="step"><div class="step-dot"></div>Learn basics of funding, MVP, validation</div><div class="step"><div class="step-dot"></div>Apply to BIRAC, IIM incubators, IITD Foundation</div><div class="step"><div class="step-dot"></div>Build → Pilot → Scale</div></div></div>
-    <div class="career-card"><div class="career-num">10</div><div class="career-title">Computational Biology / AI in Bio</div><div class="career-desc">The frontier of biology — use machine learning, deep learning and AI to solve protein folding, drug discovery and genomics.</div><div class="career-steps"><div class="step"><div class="step-dot"></div>Learn Python, ML basics, PyTorch/TensorFlow</div><div class="step"><div class="step-dot"></div>Study AlphaFold, deep genomics papers</div><div class="step"><div class="step-dot"></div>M.Tech Bioinformatics / CS + Bio double track</div><div class="step"><div class="step-dot"></div>Research roles at Google DeepMind, EMBL, IISc</div></div></div>
+    <div class="career-card">
+      <div class="career-num">01</div>
+      <div class="career-title">Research Scientist (Academia)</div>
+      <div class="career-desc">Pursue a PhD at IITs/IISc and contribute to cutting-edge biological research. The classic scientist path.</div>
+      <div class="career-steps">
+        <div class="step"><div class="step-dot"></div>Clear CSIR-NET or GATE (Life Sciences)</div>
+        <div class="step"><div class="step-dot"></div>Apply to IIT/IISc/IISER PhD programmes</div>
+        <div class="step"><div class="step-dot"></div>Publish research papers, build lab skills</div>
+        <div class="step"><div class="step-dot"></div>Postdoc → Faculty / Senior Scientist</div>
+      </div>
+      <div class="career-meta-row">
+        <span class="career-badge exam">🎯 CSIR-NET</span>
+        <span class="career-badge skill">🔬 Sci Writing</span>
+        <span class="career-badge time">⏳ Post-Ph.D.</span>
+      </div>
+    </div>
+    <div class="career-card">
+      <div class="career-num">02</div>
+      <div class="career-title">Bioinformatics Specialist</div>
+      <div class="career-desc">Merge biology with computing. Analyse genomes, design pipelines, and shape the future of personalised medicine.</div>
+      <div class="career-steps">
+        <div class="step"><div class="step-dot"></div>Learn Python, R, Linux basics</div>
+        <div class="step"><div class="step-dot"></div>Clear GATE (BT) or IIT JAM Biotech</div>
+        <div class="step"><div class="step-dot"></div>Work with BLAST, Galaxy, AlphaFold</div>
+        <div class="step"><div class="step-dot"></div>M.Sc. Bioinformatics → Industry / Research</div>
+      </div>
+      <div class="career-meta-row">
+        <span class="career-badge exam">🎯 GATE-BT</span>
+        <span class="career-badge skill">💻 Python / R</span>
+        <span class="career-badge time">⏳ Post-M.Sc.</span>
+      </div>
+    </div>
+    <div class="career-card">
+      <div class="career-num">03</div>
+      <div class="career-title">IIT JAM → M.Sc. Path</div>
+      <div class="career-desc">Gateway to India's best science institutions. Opens doors to PhD, research roles and top jobs.</div>
+      <div class="career-steps">
+        <div class="step"><div class="step-dot"></div>Prepare Biological Sciences / Biotech paper</div>
+        <div class="step"><div class="step-dot"></div>Master Cell Biology, Genetics, Biochemistry</div>
+        <div class="step"><div class="step-dot"></div>Mock tests + PYQ practice</div>
+        <div class="step"><div class="step-dot"></div>IIT/NIT M.Sc. → PhD or Industry</div>
+      </div>
+      <div class="career-meta-row">
+        <span class="career-badge exam">🎯 IIT JAM</span>
+        <span class="career-badge skill">🧫 Biochemistry</span>
+        <span class="career-badge time">⏳ Immediate</span>
+      </div>
+    </div>
+    <div class="career-card">
+      <div class="career-num">04</div>
+      <div class="career-title">Pharmaceutical / Biotech Industry</div>
+      <div class="career-desc">Join India's ₹4 lakh crore pharma industry as a QC analyst, formulation scientist or regulatory expert.</div>
+      <div class="career-steps">
+        <div class="step"><div class="step-dot"></div>M.Sc. Biochemistry / Microbiology / Biotech</div>
+        <div class="step"><div class="step-dot"></div>Learn GMP, GLP, regulatory affairs</div>
+        <div class="step"><div class="step-dot"></div>Intern at Biocon, Cipla, Sun Pharma</div>
+        <div class="step"><div class="step-dot"></div>QC/QA Analyst → Senior Scientist</div>
+      </div>
+      <div class="career-meta-row">
+        <span class="career-badge exam">🎯 None</span>
+        <span class="career-badge skill">🧪 QA-QC / HPLC</span>
+        <span class="career-badge time">⏳ Post-M.Sc.</span>
+      </div>
+    </div>
+    <div class="career-card">
+      <div class="career-num">05</div>
+      <div class="career-title">CSIR-NET → JRF / Lectureship</div>
+      <div class="career-desc">Qualify India's most prestigious science exam. Get funded PhD research or college teaching positions.</div>
+      <div class="career-steps">
+        <div class="step"><div class="step-dot"></div>Target December / June CSIR-NET exam</div>
+        <div class="step"><div class="step-dot"></div>Study Life Sciences systematically</div>
+        <div class="step"><div class="step-dot"></div>JRF: ₹37k/month fellowship for PhD</div>
+        <div class="step"><div class="step-dot"></div>LS: Assistant Professor in colleges</div>
+      </div>
+      <div class="career-meta-row">
+        <span class="career-badge exam">🎯 CSIR-NET</span>
+        <span class="career-badge skill">📖 Teaching</span>
+        <span class="career-badge time">⏳ Post-M.Sc.</span>
+      </div>
+    </div>
+    <div class="career-card">
+      <div class="career-num">06</div>
+      <div class="career-title">Clinical Research Associate</div>
+      <div class="career-desc">Manage clinical trials and drug development pipelines. A rapidly growing career in India's CRO sector.</div>
+      <div class="career-steps">
+        <div class="step"><div class="step-dot"></div>M.Sc. or PG Diploma in Clinical Research</div>
+        <div class="step"><div class="step-dot"></div>Learn ICH-GCP guidelines</div>
+        <div class="step"><div class="step-dot"></div>Intern at CROs like Covance, IQVIA</div>
+        <div class="step"><div class="step-dot"></div>CRA → Clinical Project Manager</div>
+      </div>
+      <div class="career-meta-row">
+        <span class="career-badge exam">🎯 None</span>
+        <span class="career-badge skill">🔬 ICH-GCP</span>
+        <span class="career-badge time">⏳ Post-M.Sc.</span>
+      </div>
+    </div>
+    <div class="career-card">
+      <div class="career-num">07</div>
+      <div class="career-title">Healthcare & Medical Writing</div>
+      <div class="career-desc">Translate complex science into accessible content for doctors, patients and regulatory bodies.</div>
+      <div class="career-steps">
+        <div class="step"><div class="step-dot"></div>Build strong scientific writing skills</div>
+        <div class="step"><div class="step-dot"></div>Learn regulatory writing formats (CTD, SOP)</div>
+        <div class="step"><div class="step-dot"></div>Freelance or join pharma comms teams</div>
+        <div class="step"><div class="step-dot"></div>Medical Writer → Content Lead</div>
+      </div>
+      <div class="career-meta-row">
+        <span class="career-badge exam">🎯 None</span>
+        <span class="career-badge skill">📝 Sci Writing</span>
+        <span class="career-badge time">⏳ Immediate</span>
+      </div>
+    </div>
+    <div class="career-card">
+      <div class="career-num">08</div>
+      <div class="career-title">Environmental Science & Policy</div>
+      <div class="career-desc">Work on biodiversity, conservation, pollution control and climate change with NGOs or government bodies.</div>
+      <div class="career-steps">
+        <div class="step"><div class="step-dot"></div>M.Sc. Environmental Science / Ecology</div>
+        <div class="step"><div class="step-dot"></div>Clear UPSC / State PSC (Environment track)</div>
+        <div class="step"><div class="step-dot"></div>Work with MOEF, WWF, WRI India</div>
+        <div class="step"><div class="step-dot"></div>Environment Officer → Policy Advisor</div>
+      </div>
+      <div class="career-meta-row">
+        <span class="career-badge exam">🎯 State PSC</span>
+        <span class="career-badge skill">🌱 Ecology / GIS</span>
+        <span class="career-badge time">⏳ Post-M.Sc.</span>
+      </div>
+    </div>
+    <div class="career-card">
+      <div class="career-num">09</div>
+      <div class="career-title">Biotech Entrepreneurship</div>
+      <div class="career-desc">Build startups solving healthcare, agriculture and diagnostics problems using biology and AI. The bold path.</div>
+      <div class="career-steps">
+        <div class="step"><div class="step-dot"></div>Identify a real problem in Indian healthcare/agri</div>
+        <div class="step"><div class="step-dot"></div>Learn basics of funding, MVP, validation</div>
+        <div class="step"><div class="step-dot"></div>Apply to BIRAC, IIM incubators, IITD Foundation</div>
+        <div class="step"><div class="step-dot"></div>Build → Pilot → Scale</div>
+      </div>
+      <div class="career-meta-row">
+        <span class="career-badge exam">🎯 None</span>
+        <span class="career-badge skill">💼 Business Dev</span>
+        <span class="career-badge time">⏳ Immediate</span>
+      </div>
+    </div>
+    <div class="career-card">
+      <div class="career-num">10</div>
+      <div class="career-title">Computational Biology / AI in Bio</div>
+      <div class="career-desc">The frontier of biology — use machine learning, deep learning and AI to solve protein folding, drug discovery and genomics.</div>
+      <div class="career-steps">
+        <div class="step"><div class="step-dot"></div>Learn Python, ML basics, PyTorch/TensorFlow</div>
+        <div class="step"><div class="step-dot"></div>Study AlphaFold, deep genomics papers</div>
+        <div class="step"><div class="step-dot"></div>M.Tech Bioinformatics / CS + Bio double track</div>
+        <div class="step"><div class="step-dot"></div>Research roles at Google DeepMind, EMBL, IISc</div>
+      </div>
+      <div class="career-meta-row">
+        <span class="career-badge exam">🎯 None</span>
+        <span class="career-badge skill">🐍 Python / ML</span>
+        <span class="career-badge time">⏳ Post-Ph.D.</span>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -670,14 +849,69 @@
 <!-- NEWS -->
 <section id="news">
   <div class="section-label">📰 Biotech News</div>
-  <div class="section-title">Latest in Life Sciences</div>
+  <h2 class="section-title">Latest in Life Sciences</h2>
   <p class="section-sub">Simplified, jargon-free biotech and biology news for Indian students. Stay ahead of the field.</p>
   <div class="news-grid">
-    <div class="news-card featured"><div class="news-img">🧬</div><div class="news-body"><div class="news-cat">CRISPR · Gene Editing</div><div class="news-title">India's First CRISPR-Based Sickle Cell Therapy Shows Promising Early Results in Clinical Trial</div><div class="news-date">March 2026 · 5 min read</div></div></div>
-    <div class="news-card"><div class="news-img" style="height:130px;font-size:2rem;">🌾</div><div class="news-body"><div class="news-cat">AgBiotech</div><div class="news-title">GM Mustard Gets Final Approval for Commercial Cultivation in India</div><div class="news-date">Feb 2026</div></div></div>
-    <div class="news-card"><div class="news-img" style="height:130px;font-size:2rem;">🦠</div><div class="news-body"><div class="news-cat">Vaccines</div><div class="news-title">Bharat Biotech Launches mRNA Vaccine Platform for Dengue</div><div class="news-date">Feb 2026</div></div></div>
-    <div class="news-card"><div class="news-img" style="height:130px;font-size:2rem;">🔬</div><div class="news-body"><div class="news-cat">Bioinformatics</div><div class="news-title">AlphaFold 3 Expands to Predict DNA-Protein Complexes With 85% Accuracy</div><div class="news-date">Mar 2026</div></div></div>
-    <div class="news-card"><div class="news-img" style="height:130px;font-size:2rem;">💊</div><div class="news-body"><div class="news-cat">Pharma · India</div><div class="news-title">Sun Pharma Partners With AI Startup to Accelerate Drug Discovery Pipeline</div><div class="news-date">Mar 2026</div></div></div>
+    <div class="news-card featured">
+      <div class="news-img">🧬</div>
+      <div class="news-body">
+        <div class="news-cat">CRISPR · Gene Editing</div>
+        <h3 class="news-title">India's First CRISPR-Based Sickle Cell Therapy Shows Promising Early Results in Clinical Trial</h3>
+        <div class="news-date">March 2026 · 5 min read</div>
+        <div class="news-trust-footer" style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 8px; border-top: 1px dashed rgba(26,51,38,0.3); font-size: 0.7rem; color: var(--muted);">
+          <span>Checked: <strong>2026-06-04</strong></span>
+          <span style="color: var(--green); font-weight: 500;">✓ Official Source</span>
+        </div>
+      </div>
+    </div>
+    <div class="news-card">
+      <div class="news-img" style="height:130px;font-size:2rem;">🌾</div>
+      <div class="news-body">
+        <div class="news-cat">AgBiotech</div>
+        <h3 class="news-title">GM Mustard Gets Final Approval for Commercial Cultivation in India</h3>
+        <div class="news-date">Feb 2026</div>
+        <div class="news-trust-footer" style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 8px; border-top: 1px dashed rgba(26,51,38,0.3); font-size: 0.7rem; color: var(--muted);">
+          <span>Checked: <strong>2026-06-04</strong></span>
+          <span style="color: var(--green); font-weight: 500;">✓ Official Source</span>
+        </div>
+      </div>
+    </div>
+    <div class="news-card">
+      <div class="news-img" style="height:130px;font-size:2rem;">🦠</div>
+      <div class="news-body">
+        <div class="news-cat">Vaccines</div>
+        <h3 class="news-title">Bharat Biotech Launches mRNA Vaccine Platform for Dengue</h3>
+        <div class="news-date">Feb 2026</div>
+        <div class="news-trust-footer" style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 8px; border-top: 1px dashed rgba(26,51,38,0.3); font-size: 0.7rem; color: var(--muted);">
+          <span>Checked: <strong>2026-06-04</strong></span>
+          <span style="color: var(--green); font-weight: 500;">✓ Official Source</span>
+        </div>
+      </div>
+    </div>
+    <div class="news-card">
+      <div class="news-img" style="height:130px;font-size:2rem;">🔬</div>
+      <div class="news-body">
+        <div class="news-cat">Bioinformatics</div>
+        <h3 class="news-title">AlphaFold 3 Expands to Predict DNA-Protein Complexes With 85% Accuracy</h3>
+        <div class="news-date">Mar 2026</div>
+        <div class="news-trust-footer" style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 8px; border-top: 1px dashed rgba(26,51,38,0.3); font-size: 0.7rem; color: var(--muted);">
+          <span>Checked: <strong>2026-06-04</strong></span>
+          <span style="color: var(--green); font-weight: 500;">✓ Official Source</span>
+        </div>
+      </div>
+    </div>
+    <div class="news-card">
+      <div class="news-img" style="height:130px;font-size:2rem;">💊</div>
+      <div class="news-body">
+        <div class="news-cat">Pharma · India</div>
+        <h3 class="news-title">Sun Pharma Partners With AI Startup to Accelerate Drug Discovery Pipeline</h3>
+        <div class="news-date">Mar 2026</div>
+        <div class="news-trust-footer" style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 8px; border-top: 1px dashed rgba(26,51,38,0.3); font-size: 0.7rem; color: var(--muted);">
+          <span>Checked: <strong>2026-06-04</strong></span>
+          <span style="color: var(--green); font-weight: 500;">✓ Official Source</span>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -789,6 +1023,478 @@ function sendSuggestion(el){
   sendMessage();
 }
 
+// ===== TOOLS CATALOG =====
+const ALL_TOOLS = [
+  {
+    id: "alphafold",
+    name: "AlphaFold 3",
+    icon: "🧬",
+    desc: "Predict protein structures with atomic accuracy. Revolutionary for structural biology and drug discovery research.",
+    url: "https://alphafold.ebi.ac.uk",
+    category: "bioinformatics",
+    access: "Free Access",
+    isEssential: true
+  },
+  {
+    id: "consensus",
+    name: "Consensus AI",
+    icon: "📄",
+    desc: "Ask questions and get direct answers from peer-reviewed papers. Perfect for literature reviews and CSIR prep.",
+    url: "https://consensus.app",
+    category: "research",
+    access: "Freemium",
+    isEssential: true
+  },
+  {
+    id: "biorender",
+    name: "BioRender",
+    icon: "🎨",
+    desc: "Create stunning scientific diagrams, figures and illustrations for presentations and research papers.",
+    url: "https://biorender.com",
+    category: "lab-work",
+    access: "Freemium",
+    isEssential: true
+  },
+  {
+    id: "benchling",
+    name: "Benchling",
+    icon: "🧪",
+    desc: "Free lab notebook and DNA sequence analysis tool used by top biotech companies. Essential for molecular bio students.",
+    url: "https://benchling.com",
+    category: "lab-work",
+    access: "Freemium",
+    isEssential: true
+  },
+  {
+    id: "elicit",
+    name: "Elicit",
+    icon: "🔍",
+    desc: "AI research assistant extracting key findings from thousands of papers instantly. Great for systematic reviews.",
+    url: "https://elicit.com",
+    category: "research",
+    access: "Freemium",
+    isEssential: false
+  },
+  {
+    id: "notebooklm",
+    name: "NotebookLM",
+    icon: "📓",
+    desc: "Upload your biology textbooks and PDFs — ask questions, get summaries, generate study guides. Completely free.",
+    url: "https://notebooklm.google.com",
+    category: "exam-prep",
+    access: "Free Access",
+    isEssential: true
+  },
+  {
+    id: "scite",
+    name: "Scite.ai",
+    icon: "🔭",
+    desc: "Find out if research has been supported or contradicted by later studies. Essential for critical reading.",
+    url: "https://scite.ai",
+    category: "research",
+    access: "Trial Available",
+    isEssential: false
+  },
+  {
+    id: "pubmed",
+    name: "PubMed AI Search",
+    icon: "🌐",
+    desc: "Semantic AI-powered search on biomedical literature. Find the most relevant papers for your topics and exams.",
+    url: "https://pubmed.ncbi.nlm.nih.gov",
+    category: "research",
+    access: "Free Access",
+    isEssential: false
+  },
+  {
+    id: "autodock",
+    name: "AutoDock Vina",
+    icon: "💊",
+    desc: "Molecular docking simulation tool. Ideal for bioinformatics projects and IIT JAM, GATE preparation.",
+    url: "https://autodock.scripps.edu",
+    category: "bioinformatics",
+    access: "Open Source",
+    isEssential: false
+  },
+  {
+    id: "ucsc",
+    name: "UCSC Genome Browser",
+    icon: "🧫",
+    desc: "Visualise and analyse complete human and model organism genomes. A must for genomics and bioinformatics students.",
+    url: "https://www.genome.ucsc.edu",
+    category: "bioinformatics",
+    access: "Open Source",
+    isEssential: false
+  },
+  {
+    id: "blast",
+    name: "NCBI BLAST",
+    icon: "🔬",
+    desc: "Find sequences similar to yours across all known organisms. Fundamental tool for molecular biology research.",
+    url: "https://blast.ncbi.nlm.nih.gov",
+    category: "bioinformatics",
+    access: "Open Source",
+    isEssential: false
+  },
+  {
+    id: "rcsb",
+    name: "RCSB Protein Data Bank",
+    icon: "🏗️",
+    desc: "Access 200,000+ experimentally determined protein structures. Essential for structural biology and drug design.",
+    url: "https://www.rcsb.org",
+    category: "bioinformatics",
+    access: "Open Source",
+    isEssential: false
+  },
+  {
+    id: "cipres",
+    name: "CIPRES Portal",
+    icon: "🌳",
+    desc: "Build phylogenetic trees using high-performance computing. Perfect for evolutionary biology projects.",
+    url: "https://www.phylo.org",
+    category: "bioinformatics",
+    access: "Free Access",
+    isEssential: false
+  },
+  {
+    id: "galaxy",
+    name: "Galaxy Project",
+    icon: "🌌",
+    desc: "Web-based platform for bioinformatics analysis — RNA-seq, ChIP-seq, metagenomics. No coding required.",
+    url: "https://galaxy.org",
+    category: "bioinformatics",
+    access: "Open Source",
+    isEssential: false
+  },
+  {
+    id: "cytoscape",
+    name: "Cytoscape",
+    icon: "🕸️",
+    desc: "Visualise complex biological networks and pathways. Widely used in systems biology and network analysis.",
+    url: "https://cytoscape.org",
+    category: "bioinformatics",
+    access: "Open Source",
+    isEssential: false
+  },
+  {
+    id: "clustalo",
+    name: "ClustalOmega",
+    icon: "🔗",
+    desc: "Multiple sequence alignment tool from EMBL-EBI. Standard method for comparing protein and nucleotide sequences.",
+    url: "https://www.ebi.ac.uk/tools/msa/clustalo/",
+    category: "bioinformatics",
+    access: "Open Source",
+    isEssential: false
+  },
+  {
+    id: "addgene",
+    name: "Addgene",
+    icon: "🧷",
+    desc: "Repository of plasmids and protocols for molecular biology. Also has excellent learning resources on cloning techniques.",
+    url: "https://www.addgene.org",
+    category: "lab-work",
+    access: "Free Access",
+    isEssential: false
+  },
+  {
+    id: "phet",
+    name: "PhET Bio Simulations",
+    icon: "⚗️",
+    desc: "Free interactive biology simulations from University of Colorado. Great for visualising genetic and cellular processes.",
+    url: "https://phet.colorado.edu/en/simulations/filter?subjects=biology",
+    category: "exam-prep",
+    access: "Open Source",
+    isEssential: false
+  },
+  {
+    id: "ncbi_gene",
+    name: "NCBI Gene Database",
+    icon: "🧬",
+    desc: "Search gene information, function, expression data and linked publications for any organism.",
+    url: "https://www.ncbi.nlm.nih.gov/gene/",
+    category: "bioinformatics",
+    access: "Open Source",
+    isEssential: false
+  },
+  {
+    id: "string_db",
+    name: "STRING DB",
+    icon: "🔁",
+    desc: "Protein-protein interaction database and network visualiser. Key tool for systems biology and pathway analysis.",
+    url: "https://string-db.org",
+    category: "bioinformatics",
+    access: "Free Access",
+    isEssential: false
+  },
+  {
+    id: "uniprot",
+    name: "UniProt",
+    icon: "📚",
+    desc: "Comprehensive protein sequence and functional information database. Standard reference for proteomics research.",
+    url: "https://www.uniprot.org",
+    category: "bioinformatics",
+    access: "Open Source",
+    isEssential: false
+  },
+  {
+    id: "kegg",
+    name: "KEGG Pathways",
+    icon: "🗺️",
+    desc: "Metabolic and signaling pathway database. Essential for biochemistry, pharmacology and systems biology studies.",
+    url: "https://www.kegg.jp",
+    category: "bioinformatics",
+    access: "Free Access",
+    isEssential: false
+  },
+  {
+    id: "go",
+    name: "Gene Ontology",
+    icon: "🌿",
+    desc: "Standardised vocabulary of gene and protein functions across species. Fundamental for bioinformatics annotation work.",
+    url: "https://www.geneontology.org",
+    category: "bioinformatics",
+    access: "Open Source",
+    isEssential: false
+  },
+  {
+    id: "primer3plus",
+    name: "Primer3Plus",
+    icon: "🎯",
+    desc: "Design PCR primers for any gene sequence. Widely used in molecular biology labs and research projects worldwide.",
+    url: "https://tools.thermofisher.com/content/sfs/brochures/oligo-perfect-oligo-designer.htm",
+    category: "lab-work",
+    access: "Open Source",
+    isEssential: false
+  },
+  {
+    id: "coursera_bio",
+    name: "Bioinformatics (Coursera)",
+    icon: "📖",
+    desc: "Free audit of UCSD's bioinformatics specialisation. Excellent for learning computational biology from scratch.",
+    url: "https://www.coursera.org/learn/bioinformatics",
+    category: "exam-prep",
+    access: "Freemium",
+    isEssential: false
+  },
+  {
+    id: "biopython",
+    name: "Biopython",
+    icon: "🐍",
+    desc: "Python library for biological computation. Learn to write scripts for sequence analysis, file parsing and BLAST searches.",
+    url: "https://biopython.org",
+    category: "bioinformatics",
+    access: "Open Source",
+    isEssential: false
+  },
+  {
+    id: "r_bio",
+    name: "R for Biology",
+    icon: "📊",
+    desc: "Statistical computing language essential for analysing biological data, gene expression and population genetics.",
+    url: "https://www.r-project.org",
+    category: "bioinformatics",
+    access: "Open Source",
+    isEssential: false
+  },
+  {
+    id: "clinicaltrials",
+    name: "ClinicalTrials.gov",
+    icon: "🏥",
+    desc: "Search global clinical trials data. Great for understanding translational research and pharmaceutical development.",
+    url: "https://clinicaltrials.gov",
+    category: "research",
+    access: "Open Source",
+    isEssential: false
+  },
+  {
+    id: "drugbank",
+    name: "DrugBank",
+    icon: "💉",
+    desc: "Comprehensive drug and drug-target database. Essential for pharmacology and drug discovery students.",
+    url: "https://www.drugbank.ca",
+    category: "research",
+    access: "Freemium",
+    isEssential: false
+  },
+  {
+    id: "mirbase",
+    name: "miRBase",
+    icon: "🧵",
+    desc: "microRNA sequence and annotation database. Key resource for gene regulation, epigenetics and RNA biology research.",
+    url: "https://www.mirbase.org",
+    category: "bioinformatics",
+    access: "Open Source",
+    isEssential: false
+  },
+  {
+    id: "imagej",
+    name: "ImageJ / FIJI",
+    icon: "🖼️",
+    desc: "Free image analysis software for microscopy data. Standard tool in cell biology, histology and fluorescence imaging.",
+    url: "https://imagej.nih.gov/ij/",
+    category: "lab-work",
+    access: "Open Source",
+    isEssential: false
+  },
+  {
+    id: "flowjo",
+    name: "FlowJo (Free Trial)",
+    icon: "🌊",
+    desc: "Flow cytometry data analysis platform. Learn to analyse immune cell populations and cell cycle data.",
+    url: "https://www.flowjo.com",
+    category: "lab-work",
+    access: "Trial Available",
+    isEssential: false
+  }
+];
+
+let activeToolCategory = 'all';
+let toolSearchQuery = '';
+
+function renderToolsListings() {
+  const container = document.getElementById('toolsGrid');
+  const essentialContainer = document.getElementById('essentialToolsGrid');
+  if (!container) return;
+
+  const saved = JSON.parse(localStorage.getItem('bioedge_bookmarks')) || [];
+
+  // Render Essential tools first
+  if (essentialContainer) {
+    const essentials = ALL_TOOLS.filter(t => t.isEssential);
+    essentialContainer.innerHTML = essentials.map(t => renderToolCardHtml(t, saved)).join('');
+  }
+
+  // Filter tools
+  const filtered = ALL_TOOLS.filter(tool => {
+    const matchesFilter = activeToolCategory === 'all' || tool.category === activeToolCategory;
+    const matchesSearch = tool.name.toLowerCase().includes(toolSearchQuery.toLowerCase()) ||
+                          tool.desc.toLowerCase().includes(toolSearchQuery.toLowerCase()) ||
+                          tool.category.toLowerCase().includes(toolSearchQuery.toLowerCase()) ||
+                          tool.access.toLowerCase().includes(toolSearchQuery.toLowerCase());
+    return matchesFilter && matchesSearch;
+  });
+
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div class="job-empty-state" style="grid-column: 1/-1;">
+        ❌ No tools matching the current criteria.
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = filtered.map(t => renderToolCardHtml(t, saved)).join('');
+}
+
+function renderToolCardHtml(tool, savedList) {
+  const isBookmarked = savedList.includes('tool-' + tool.id);
+  const bookmarkClass = isBookmarked ? 'active' : '';
+  const starSymbol = isBookmarked ? '★' : '☆';
+  
+  return `
+    <a href="${tool.url}" target="_blank" class="tool-card">
+      <button class="bookmark-btn ${bookmarkClass}" onclick="event.preventDefault(); event.stopPropagation(); toggleBookmark('tool-${tool.id}')" title="Bookmark tool">
+        ${starSymbol}
+      </button>
+      <div>
+        <div class="tool-icon">${tool.icon}</div>
+        <div class="tool-name">${tool.name}</div>
+        <div class="tool-desc">${tool.desc}</div>
+      </div>
+      <div class="card-meta-row" style="margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap;">
+        <span class="tool-tag">${getCategoryLabel(tool.category)}</span>
+        <span class="tool-access-badge">${tool.access}</span>
+      </div>
+    </a>
+  `;
+}
+
+function getCategoryLabel(catId) {
+  switch(catId) {
+    case 'exam-prep': return 'IIT JAM / NET Prep';
+    case 'research': return 'Research';
+    case 'lab-work': return 'Lab Helpers';
+    case 'bioinformatics': return 'Bioinformatics';
+    default: return catId;
+  }
+}
+
+function filterCategory(category, el) {
+  activeToolCategory = category;
+  document.querySelectorAll('#toolChips .filter-chip').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderToolsListings();
+}
+
+function filterTools() {
+  const searchInput = document.getElementById('toolSearch');
+  if (searchInput) {
+    toolSearchQuery = searchInput.value;
+  }
+  renderToolsListings();
+}
+
+// ===== BOOKMARK SYSTEM =====
+function toggleBookmark(itemId) {
+  let saved = JSON.parse(localStorage.getItem('bioedge_bookmarks')) || [];
+  if (saved.includes(itemId)) {
+    saved = saved.filter(id => id !== itemId);
+  } else {
+    saved.push(itemId);
+  }
+  localStorage.setItem('bioedge_bookmarks', JSON.stringify(saved));
+  
+  // Rerender all components
+  renderToolsListings();
+  renderJobsListings();
+  renderSavedDashboard();
+}
+
+function renderSavedDashboard() {
+  const dashboard = document.getElementById('saved-dashboard');
+  const divider = document.querySelector('.saved-divider');
+  const savedToolsGrid = document.getElementById('savedToolsGrid');
+  const savedJobsGrid = document.getElementById('savedJobsGrid');
+  const savedToolsContainer = document.getElementById('savedToolsContainer');
+  const savedJobsContainer = document.getElementById('savedJobsContainer');
+  
+  if (!dashboard) return;
+  
+  const saved = JSON.parse(localStorage.getItem('bioedge_bookmarks')) || [];
+  
+  const savedToolIds = saved.filter(id => id.startsWith('tool-')).map(id => id.replace('tool-', ''));
+  const savedJobIds = saved.filter(id => id.startsWith('job-')).map(id => parseInt(id.replace('job-', '')));
+  
+  const hasSavedTools = savedToolIds.length > 0;
+  const hasSavedJobs = savedJobIds.length > 0;
+  
+  if (hasSavedTools || hasSavedJobs) {
+    dashboard.style.display = 'block';
+    if (divider) divider.style.display = 'block';
+  } else {
+    dashboard.style.display = 'none';
+    if (divider) divider.style.display = 'none';
+    return;
+  }
+  
+  // Render Saved Tools
+  if (hasSavedTools) {
+    savedToolsContainer.style.display = 'block';
+    const tools = ALL_TOOLS.filter(t => savedToolIds.includes(t.id));
+    savedToolsGrid.innerHTML = tools.map(t => renderToolCardHtml(t, saved)).join('');
+  } else {
+    savedToolsContainer.style.display = 'none';
+  }
+  
+  // Render Saved Jobs
+  if (hasSavedJobs) {
+    savedJobsContainer.style.display = 'block';
+    const jobs = jobsListings.filter(j => savedJobIds.includes(j.id));
+    savedJobsGrid.innerHTML = jobs.map(j => renderJobCardHtml(j, saved)).join('');
+  } else {
+    savedJobsContainer.style.display = 'none';
+  }
+}
+
 // ===== JOB OPPORTUNITY TRACKER =====
 let jobsListings = [];
 let activeJobsFilter = 'all';
@@ -801,6 +1507,7 @@ async function loadJobsNotifications() {
     if (!res.ok) throw new Error('Failed to load listings data.');
     jobsListings = await res.json();
     renderJobsListings();
+    renderSavedDashboard();
   } catch (err) {
     console.error("Error loading job notifications:", err);
     if (container) {
@@ -817,6 +1524,8 @@ function renderJobsListings() {
   const container = document.getElementById('jobsContainer');
   if (!container) return;
 
+  const saved = JSON.parse(localStorage.getItem('bioedge_bookmarks')) || [];
+
   const filtered = jobsListings.filter(job => {
     const matchesFilter = activeJobsFilter === 'all' || job.category === activeJobsFilter;
     const matchesSearch = job.institute.toLowerCase().includes(jobsSearchQuery.toLowerCase()) ||
@@ -828,64 +1537,74 @@ function renderJobsListings() {
   if (filtered.length === 0) {
     container.innerHTML = `
       <div class="job-empty-state">
-        ❌ No active notifications matching the current criteria.
+        ❌ No active vacancies matching the current criteria.
       </div>
     `;
     return;
   }
 
-  let html = '';
-  filtered.forEach(job => {
-    // Determine badging styles
-    const badgesHtml = job.eligibility.map(elig => {
-      let badgeClass = 'standard';
-      if (elig.includes('Mandatory') || elig.includes('Required')) {
-        badgeClass = 'mandatory';
-      } else if (elig.includes('Optional') || elig.includes('Needed')) {
-        badgeClass = 'optional';
-      }
-      return `<span class="job-eligibility-badge ${badgeClass}">${elig}</span>`;
-    }).join('');
+  container.innerHTML = filtered.map(job => renderJobCardHtml(job, saved)).join('');
+}
 
-    html += `
-      <div class="job-notification-card">
-        <div>
-          <div class="job-card-header">
-            <div class="job-card-title-block">
-              <span class="job-card-institute">${job.institute}</span>
-              <h2 class="job-card-position">${job.position}</h2>
-            </div>
-            <span class="job-card-stipend">💰 ${job.stipend}</span>
+function renderJobCardHtml(job, savedList) {
+  const isBookmarked = savedList.includes('job-' + job.id);
+  const bookmarkClass = isBookmarked ? 'active' : '';
+  const starSymbol = isBookmarked ? '★' : '☆';
+  
+  const badgesHtml = job.eligibility.map(elig => {
+    let badgeClass = 'standard';
+    if (elig.includes('Mandatory') || elig.includes('Required')) {
+      badgeClass = 'mandatory';
+    } else if (elig.includes('Optional') || elig.includes('Needed')) {
+      badgeClass = 'optional';
+    }
+    return `<span class="job-eligibility-badge ${badgeClass}">${elig}</span>`;
+  }).join('');
+
+  return `
+    <div class="job-notification-card" style="position: relative;">
+      <button class="bookmark-btn ${bookmarkClass}" onclick="event.preventDefault(); event.stopPropagation(); toggleBookmark('job-${job.id}')" title="Bookmark opportunity">
+        ${starSymbol}
+      </button>
+      <div>
+        <div class="job-card-header">
+          <div class="job-card-title-block">
+            <span class="job-card-institute">${job.institute}</span>
+            <h2 class="job-card-position">${job.position}</h2>
           </div>
-
-          <p class="job-card-project">
-            Project: "${job.project}"
-          </p>
-
-          <div class="job-card-eligibility-row">
-            ${badgesHtml}
-          </div>
+          <span class="job-card-stipend">💰 ${job.stipend}</span>
         </div>
 
-        <div class="job-card-footer">
-          <span class="job-card-deadline">
-            ⏰ Apply by: <span>${job.deadline}</span>
-          </span>
-          
-          <a 
-            href="${job.pdfLink}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="job-card-btn"
-          >
-            View Official Portal ↗
-          </a>
+        <p class="job-card-project">
+          Project: "${job.project}"
+        </p>
+
+        <div class="job-card-eligibility-row">
+          ${badgesHtml}
+        </div>
+        
+        <div class="job-card-trust-row" style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; padding: 6px 10px; background: rgba(0, 232, 122, 0.03); border: 1px solid var(--border); border-radius: 6px; font-size: 0.7rem;">
+          <span style="color: var(--muted);">Last Checked: <strong style="color: var(--text);">${job.lastVerified}</strong></span>
+          ${job.isVerified ? `<span style="color: var(--green); font-weight: 600; display: flex; align-items: center; gap: 4px;">✓ Verified Source</span>` : ''}
         </div>
       </div>
-    `;
-  });
 
-  container.innerHTML = html;
+      <div class="job-card-footer" style="margin-top: 14px;">
+        <span class="job-card-deadline">
+          ⏰ Apply by: <span>${job.deadline}</span>
+        </span>
+        
+        <a 
+          href="${job.sourceUrl}"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="job-card-btn"
+        >
+          View Official Portal ↗
+        </a>
+      </div>
+    </div>
+  `;
 }
 
 function setJobsFilter(category, btn) {
@@ -903,9 +1622,36 @@ function handleJobsSearchFilter() {
   renderJobsListings();
 }
 
+// ===== NEWSLETTER DIGEST EMAIL CAPTURE =====
+function handleDigestSubscribe(event) {
+  event.preventDefault();
+  const emailInput = document.getElementById('digestEmail');
+  if (!emailInput) return;
+  const email = emailInput.value.trim();
+  if (!email) return;
+  
+  const form = event.target;
+  form.style.display = 'none';
+  const successMsg = document.getElementById('digestSuccess');
+  if (successMsg) successMsg.style.display = 'block';
+  
+  localStorage.setItem('bioedge_digest_subscribed', 'true');
+}
+
 // Call on startup
 document.addEventListener('DOMContentLoaded', () => {
   loadJobsNotifications();
+  renderToolsListings();
+  
+  // Check digest subscription
+  if (localStorage.getItem('bioedge_digest_subscribed') === 'true') {
+    const form = document.querySelector('.opportunity-digest-bar form');
+    const successMsg = document.getElementById('digestSuccess');
+    if (form && successMsg) {
+      form.style.display = 'none';
+      successMsg.style.display = 'block';
+    }
+  }
 });
 
 // ===== ACTIVE NAV =====
